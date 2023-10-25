@@ -1,5 +1,5 @@
 <?php
-
+//TODO debo crear una clase especializad en manejar el debuggin , por ejemp0lo para hacer debuggin selectivo del router o del loader.
 namespace DgbAuroCore\vendor\Inventarium;
 
 use DgbAuroCore\vendor\Inventarium\Facade;
@@ -13,9 +13,10 @@ class Router
 
 	public function __construct($requestUri)
 	{
+		//TODO aceptar url de guarda (vacia y que siempre conduzca e.g. al home)
 
-		$this->env = Facade::call('Env');
-		$this->requestUri = preg_replace('#/+#', '/', $requestUri);
+		$this->env = Facade::call('Env');//Variables de enotrno del folder y el estado del debug mode (true/false)
+		$this->requestUri = preg_replace('#/+#', '/', $requestUri);//TODO creo que es por si hay dobles slash (//)
 	}
 
 	public function add($uri, $closure, $classParams = [],$queryparams = false)
@@ -36,7 +37,7 @@ class Router
 
 	private function debug($uri)
 	{
-		$this->env::env('DEBUG') ? dgbec("SERVER REQUEST_URI: <br>" . $_SERVER['REQUEST_URI']) : false;
+		$this->env::env('DEBUG') ? dgbec("SERVER REQUEST_URI: <br>" . $this->requestUri) : false;
 		$this->env::env('DEBUG') ? dgbec("env folder: <br>" . $uri) : false;
 	}
 
