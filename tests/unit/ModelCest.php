@@ -26,7 +26,7 @@ class ModelCest
         $modelsun = new MkModelSun();
     }
 
-    //TODO este test prueba la app cliente ... No deberiamos usar un mockup o probar directo la clase modelo del core ?
+    //TODO este test prueba la app y un modelo (Domains) del cliente ... No deberiamos usar un mockup o probar directo la clase modelo del core ?
     public function retrieveRegisterByValue(UnitTester $I){
         require_once __DIR__ . '/../../../../../aurora/loader.php';
         require_once __DIR__ . '/../../loader.php';
@@ -37,7 +37,7 @@ class ModelCest
 
 
         $domain = Facade::call('Domains');
-        $result = $domain->retrieveRegisterByValue(['name' => 'id', 'value' => "1"]);
+        $result = $domain->retrieveRegisterByValue(['site_name' => 'id', 'value' => "1"]);
         $I->assertTrue(!is_null($result), 'Token encontrado' .$result->token);
 
     }
@@ -52,10 +52,10 @@ class ModelCest
 
         $modelsun = Facade::call('MkModelSun');
         
-        $modelsun->addFields(['name' => 'eliminable.com']);
+        $modelsun->addFields(['site_name' => 'eliminable.com']);
         $id = $modelsun->store()->id;
         $I->assertIsNumeric($id, 'Se espera id del registro CREADO = '. $id);
-        $id = $modelsun->findOrCreate(['name = ?',['eliminable.com']])->id;
+        $id = $modelsun->findOrCreate(['site_name = ?',['eliminable.com']])->id;
         $I->assertIsNumeric($id, 'Se espera id del registro ENCONTRADO findorcreate: '. $id);
         
         $id = $modelsun->getById($id)->id;
@@ -77,18 +77,31 @@ class ModelCest
         $modelsun = Facade::call('MkModelSun');
         $randomNumber = mt_rand(1000000000, 9999999999);
         // $randomNumber = 9999999999; //TODO para que ?
-        $modelsun->addFields(['name' => 'www.unitmodelcest.com','id_unico' => $randomNumber]);
+        $modelsun->addFields(['site_name' => 'www.unitmodelcest.com','id_unico' => $randomNumber]);
         $id =   $modelsun->store()->id;
         $I->assertIsNumeric($id, 'id del registro NUEVO: '. $id);
         
-        $randomNumber = mt_rand(1000000000, 9999999999);
-        $modelsun->addFields(['name' => 'www.unitmodelcest.com','id_unico' => $randomNumber]);
 
-        $id = $modelsun->findOrCreate('name')->id;
+        //Intentar crear otro registro con el mismo id unico, debe fallar
+
+        $modelsun->addFields(['site_name' => 'www.id-repetido.com','id_unico' => $randomNumber]);
+        try {
+            $id =   $modelsun->store()->id;
+
+        } catch (Throwable $exception) {
+            $I->expectThrowable(Exception::class, function () use ($exception, $I) {
+                throw $exception;
+            }, 'Se espera excepción por intento de insercion  con id unico duplicado');//TODO se debe manejar esta excepcion en el sitema para que no simplemente se pierda el registro
+        }
+
+        $randomNumber = mt_rand(1000000000, 9999999999);
+        $modelsun->addFields(['site_name' => 'www.unitmodelcest.com','id_unico' => $randomNumber]);
+
+        $id = $modelsun->findOrCreate('site_name')->id;
 
         $I->assertIsNumeric($id, 'id del registro UPDATE: '. $id);
         
-        $condition = ['name = ? AND id_unico = ?', ['www.unitmodelcest.com', $randomNumber]];
+        $condition = ['site_name = ? AND id_unico = ?', ['www.unitmodelcest.com', $randomNumber]];
         $id = $modelsun->findOrCreate($condition)->id;
         
         $I->assertIsNumeric($id, 'id del registro ENCONTRADO: '. $id);
@@ -97,14 +110,14 @@ class ModelCest
         ///////////////////////////////////////
 
         $modelsun = Facade::call('MkModelSun');
-        $modelsun->addFields(['name' => 'invalid_field', 'campo invalido' => 'campo invalido']);
+        $modelsun->addFields(['site_name' => 'invalid_field', 'campo invalido' => 'campo invalido']);
         try {
             $modelsun->store();
 
         } catch (Throwable $exception) {
             $I->expectThrowable(Exception::class, function () use ($exception, $I) {
                 throw $exception;
-            }, 'Se espera excepción por registro en campo no permitido para este modelo');
+            }, 'Se espera excepción por intento de insercion  en campo no permitido ("campo invalido") para este modelo');
         }
         
     }

@@ -44,7 +44,6 @@ class Model
     public $created_by = false;
     public $updated_by = false;
     protected $fields = [];
-    protected $uniqueFields = [];
     protected $allowedFields = [];
     private $sessionManager;
 
@@ -54,7 +53,7 @@ class Model
         $this->sessionManager = $sessionManager;
 
         $this->env = Facade::call('Env');
-        
+
         function_exists('dgbInTest') ? $this->env::init() : null;
 
         $env = function ($key = '', $default = null) {
@@ -84,7 +83,7 @@ class Model
 
     public function addFields(array $fields)
     {
-
+        //TODO desde aqui se debería de verificar si los campos estan registrados en el modelo y por ende permitidos? A}ctualmente esa responsabilidad se delega en la insercion o en el update
         $this->fields = $fields;
         //regresar parametro de entrada para usarlo en findOrCreate 
         return $fields;
@@ -116,9 +115,9 @@ class Model
                 unset($this->fields[$condition]);
             }
 
-            foreach ($this->fields as $fieldName => $fieldValue) {
-                $this->checkAllowedFields($fieldName);
-                $bean->$fieldName = $fieldValue;
+            foreach ($this->fields as $field => $fieldValue) {
+                $this->checkAllowedFields($field);
+                $bean->$field = $fieldValue;
             }
 
             $bean = $this->timestamps_create($bean);
@@ -140,9 +139,8 @@ class Model
         if ($fast) {
             $bean = \R::load($this->table, $id);
             echo function_exists('dgbInTest') ? "usando cache \n" : false;
-            
         } else {
-            
+
             $bean = \R::loadForUpdate($this->table, $id);
             echo function_exists('dgbInTest') ? "Cache off \n" : false;
         }
@@ -161,11 +159,13 @@ class Model
 
         $bean = \R::xdispense($this->table);
 
+        //TODO estandarizar $var , revisra codigo similar en este doc
+        // dgbdc($this->fields);
         foreach ($this->fields as $var => $value) {
             $this->checkAllowedFields($var);
+            // dgbdc($value);
             $bean->$var = $value;
         }
-
 
 
         $bean = $this->timestamps_create($bean);
@@ -173,15 +173,35 @@ class Model
         $id = \R::store($bean);
 
 
-        foreach ($this->uniqueFields as $key => $value) {
-            $indexName = "{$value}_unique";
+        foreach ($this->allowedFields as $key => $value) {
+            $name = $value['name']; //Nombre es requerido, si no esta seteado se desea el error
+            $unique = isset($value['unique']) ? $value['unique'] : false;
+            $type = isset($value['type']) ? $value['type'] : '';
+            $attr = isset($value['attr']) ? $value['attr'] : '';
+            $indexName = "{$name}_unique";
 
-            $sql = "SHOW INDEX FROM {$this->table} WHERE Key_name = ?";
-            $result = \R::getRow($sql, [$indexName]);
 
-            if (!$result) {
-                $sql = "ALTER TABLE {$this->table} ADD CONSTRAINT $indexName UNIQUE ($value)";
-                \R::exec($sql);
+            if ($unique) {
+
+                // Verificar si la columna existe en la tabla
+                $sql = "SHOW COLUMNS FROM {$this->table} LIKE ?";
+                $result = \R::getCell($sql, [$name]);
+
+                if (!$result) {
+                    // Si la columna no existe, puedes crearla aquí
+                    $sql = "ALTER TABLE {$this->table} ADD COLUMN $name $type $attr";
+
+                    \R::exec($sql);
+                }
+
+
+                $sql = "SHOW INDEX FROM {$this->table} WHERE Key_name = ?";
+                $result = \R::getRow($sql, [$indexName]);
+
+                if (!$result) {
+                    $sql = "ALTER TABLE {$this->table} ADD CONSTRAINT $indexName UNIQUE ($name)";
+                    \R::exec($sql);
+                }
             }
         }
 
@@ -250,9 +270,14 @@ class Model
     private function checkAllowedFields($field)
     {
 
-        $isAllowedField = in_array($field, $this->allowedFields);
-        $isAllowedUnique = in_array($field, $this->uniqueFields);
-        if (!$isAllowedField && !$isAllowedUnique) {
+        $isAllowedField = false;
+        foreach ($this->allowedFields as $fieldInfo) {
+            if ($fieldInfo['name'] === $field) {
+                $isAllowedField = true;
+                break;
+            }
+        }
+        if (!$isAllowedField ) {
             throw new \Exception('Campo no permitido para este modelo:' . $field);
         }
     }

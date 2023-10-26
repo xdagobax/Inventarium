@@ -13,7 +13,10 @@ class MkModelSun extends Model
 
     {
         parent::__construct($sessionManager);
-        $this->allowedFields = ['name'];
-        $this->uniqueFields = ['id_unico'];
+        $this->allowedFields = [
+            ['name'=>'site_name'],
+            ['name'=>'id_unico','unique'=>true,'type'=>'INTEGER','attr'=>'UNSIGNED'],
+            ['name'=>'id_unico_tiny','unique'=>true,'type'=>'INTEGER']
+        ];
     }
 }
