@@ -219,7 +219,7 @@ class Model
 
         $tableExists = \R::getCell($query);
         if (!$tableExists) {
-            echo "La tabla '$tableName' no existe.";
+            echo "La tabla '$tableName' no existe.\n";
             return null;
         }
 

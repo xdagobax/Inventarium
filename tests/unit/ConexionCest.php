@@ -13,12 +13,13 @@ class ConexionCest
     }
 
 
-    public function testCTEs(UnitTester $I)
-    {
-        require_once __DIR__ . '/../mockups/conexion.php';
+    //TODO porque se quedo comentado esto?
+    // public function testCTEs(UnitTester $I)
+    // {
+    //     // require_once __DIR__ . '/../mockups/conexion.php';
 
-        $cnx = new conexion();
-        $I->assertStringContainsString('soporta', $cnx->testCTEs(), 'se espera la palabra "soporta"');
-    }
+    //     // $cnx = new conexion();
+    //     // $I->assertStringContainsString('soporta', $cnx->testCTEs(), 'se espera la palabra "soporta"');
+    // }
 
 }

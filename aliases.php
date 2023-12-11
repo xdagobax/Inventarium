@@ -13,3 +13,7 @@ Facade::addAlias('Render', 'DgbAuroCore\vendor\Inventarium\Render');
 Facade::addAlias('WithConstructParams', 'DgbAuroCore\vendor\Inventarium\tests\mockups\WithConstructParams');
 Facade::addAlias('MkModelSun', 'DgbAuroCore\vendor\Inventarium\tests\mockups\MkModelSun');
 Facade::addAlias('MkClass', 'DgbAuroCore\vendor\Inventarium\tests\mockups\MkClass');
+Facade::addAlias('EventSender', 'DgbAuroCore\vendor\Inventarium\tests\mockups\EventSender');
+Facade::addAlias('EventSuscriptor', 'DgbAuroCore\vendor\Inventarium\tests\mockups\EventSuscriptor');
+Facade::addAlias('EventSuscriptorTwo', 'DgbAuroCore\vendor\Inventarium\tests\mockups\EventSuscriptorTwo');
+Facade::addAlias('HookSubject', 'DgbAuroCore\vendor\Inventarium\tests\mockups\HookSubject');

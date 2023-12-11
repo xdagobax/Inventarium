@@ -10,9 +10,9 @@ class conexion
     {
 
         $host = 'localhost';
-        $user = 'igualifyuser';
-        $password = '@Igualify33';
-        $database = 'igualifydb';
+        $user = '-dgbDeveloper33#';
+        $password = '-dgbDeveloper33#pass';
+        $database = 'wcadmin';
 
         $this->conexion = mysqli_connect($host, $user, $password, $database);
 

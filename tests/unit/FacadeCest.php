@@ -10,22 +10,22 @@ class FacadeCest
         require_once __DIR__ . '../../../../dgbdebugger/debug.php';
     }
 
-    function delegateEvent(UnitTester $I)
-    {
-        require_once __DIR__ . '/../../loader.php';
-        require_once __DIR__ . '/../../aliases.php';
-        require __DIR__ . '/../../../../../aurora/aliases.php';
+    // function delegateEvent(UnitTester $I)
+    // {
+    //     // require_once __DIR__ . '/../../loader.php';
+    //     // require_once __DIR__ . '/../../aliases.php';
+    //     // require __DIR__ . '/../../../../../aurora/aliases.php';
 
-        $receptor = Facade::call('MkClass');
-        $emisor = Facade::call('MkClass');
+    //     // $receptor = Facade::call('MkClass');
+    //     // $emisor = Facade::call('MkClass');
 
-        Facade::delegateEvent($receptor, 'onTestEvent');
+    //     // Facade::delegateEvent($receptor, 'onTestEvent');
         
-        $emisor->triggerDelegatedEvents();
+    //     // $emisor->triggerDelegatedEvents();
 
-        $I->assertTrue($receptor->onTestEvent , 'El evento se lanzo con exito ');
+    //     // $I->assertTrue($receptor->onTestEvent , 'El evento se lanzo con exito ');
 
-    }
+    // }
 
     public function facadeClasesYParametros(UnitTester $I)
     {

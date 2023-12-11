@@ -2,23 +2,39 @@
 
 //Este artefacto es muy util para instanciar o referirse a clases de la aplicacion de manera dinamica, las cuales no estan en el ambito del core ya que el core lopueden consumir diversas aplicaciones 
 
+
 namespace DgbAuroCore\vendor\Inventarium;
 
 use DgbAuroCore\vendor\Inventarium\Factory;
 
+
+function compararPorPrioridad($a, $b)
+{
+    // Compara por prioridad, de mayor a menor
+    return $b[1] - $a[1];
+}
+
+
+
 class Facade
 {
+    private static $hookObservers = [];
     private static $eventObservers = [];
+    private static $eventResponses = [];
 
     public static $aliases = array();
 
-    public static function addAlias($alias, $class,$override = true)
+    public static function getEventResponses()
+    {
+        return self::$eventResponses;
+    }
+    public static function addAlias($alias, $class, $override = true)
     {
         //TODO esto del override me hizo fallar casi todos los test porque no inclui el parametro override ya que lo puse despues, es buena idea como prevención pero debo reflexionar mas como implementarlo .. ahiora tengo sueño
         if (isset(self::$aliases[$alias]) && !$override) {
             // La variable en el arreglo está definida
             throw new \Exception('No se permiten explicitamente sobreescribir los alias, use el tercer parametro (override) en true en la llamada .');
-        } 
+        }
         self::$aliases[$alias] = $class;
     }
 
@@ -30,27 +46,120 @@ class Facade
     }
 
 
+    //TODO esta clase hace mas de una cosa, pero ... es global por eso es así ¿Conviene dividirla en mas clases ? Quizas si y una global que incluya a todas las que quiera que sean globales 
     public static function trigger($e)
     {
+
+
+
+
         $eventName = $e['event'];
+        // dgbpc(self::$eventObservers[$eventName]);
+        // dgbec($eventName);
+        // dgbpd(self::$eventObservers[$eventName]);
 
         // Verifica si hay observadores registrados para el evento especificado
         if (isset(self::$eventObservers[$eventName])) {
-            $observers = self::$eventObservers[$eventName];
+            $eventObservers = self::$eventObservers[$eventName];
 
-            foreach ($observers as $observer) {
-                $observer->$eventName($e);
+
+            usort($eventObservers, 'DgbAuroCore\vendor\Inventarium\compararPorPrioridad');
+            // dgbec($eventName);
+            // dgbpc($eventObservers);
+
+            foreach ($eventObservers as $observer) {
+                // foreach ($observerArray as $observer) {
+                // dgbec(get_class($observer));
+                // dgbec('paso');
+                // dgbpc($e);
+                // dgbpc($observer);
+                if (isset($e['response'])) {
+
+                    unset($e['response']);
+                }
+                $response = $observer[0]->$eventName($e); //Se envia el argumento que se implemento en la llamada completo y ya cada receptor ve como lo maneja, el primer elemento es el nombre del evento , pero el segundo elemento a veces tendra un array en args, a veces un valor simple y a veces no habra args y su nombre puede ser cualquiera.
+
+                $e['suscriptor'] = get_class($observer[0]);
+                $e['response'] = $response;
+                $observer[0]->event = $e;
+
+                $clonedObject = clone $observer[0];
+                array_push(self::$eventResponses, $clonedObject);
             }
+
+            // dgbpc(self::$eventResponses);
         }
     }
 
-    public static function delegateEvent($obj, $event)
+    public static function delegateEvent($obj, $event, $prioriti = 10)
     {
+        // TODO será bueba idea asignar una prioridad y un numero de argumentos tal como hace wordpress? Y tambien dividir en acciones y filtros?
         // Utiliza el array asociativo para almacenar los observadores para cada evento
         if (!isset(self::$eventObservers[$event])) {
             self::$eventObservers[$event] = [];
         }
+        // 
+        array_push(self::$eventObservers[$event], [$obj, $prioriti]);
+    }
+    public static function doAction($hookName, ...$args)
+    {
+        return self::applyFilter($hookName, ...$args);
+    }
+    public static function applyFilter($hookName, $initialValue = null, ...$args)
+    {
+        if (!isset(self::$hookObservers[$hookName])) {
+            return $initialValue;
+        }
 
-        array_push(self::$eventObservers[$event], $obj);
+        $filteredValue = $initialValue;
+
+        foreach (self::$hookObservers[$hookName] as $hookFunction) {
+            if (is_callable($hookFunction[0])) {
+                $filteredValue = call_user_func_array($hookFunction[0], [$filteredValue, ...$args]);
+            }
+        }
+
+        return $filteredValue;
+    }
+
+    public static function addAction($hookName, $fn = null,$prioriti = 10)
+    {
+        self::addFilter($hookName, $fn,$prioriti);
+    }
+
+    public static function addFilter($hookName, $fn = null, $priority = 10)
+    {
+        if (!isset(self::$hookObservers[$hookName])) {
+            self::$hookObservers[$hookName] = [];
+        }
+
+        if (is_callable($fn)) {
+            // Agregar la función de filtro con su prioridad
+            self::$hookObservers[$hookName][] = [$fn, $priority];
+
+            // Ordenar las funciones de filtro por prioridad
+            usort(self::$hookObservers[$hookName], function ($a, $b) {
+                return $b[1] - $a[1];
+            });
+            
+        }
+    }
+
+    public static function removeFilter($hookName)
+    {
+        if (isset(self::$hookObservers[$hookName])) {
+            unset(self::$hookObservers[$hookName]);
+        }
+    }
+   
+    //TODO en las pruebasa es necesario elminar eventos previos .. pero ¿Como identificar cuando sea necesario ? Y mas importante aun ¿Como prevenir que se me olvide?
+    public static function removeAllEvent()
+    {
+        if (isset(self::$eventObservers)) {
+            self::$eventObservers  = [];
+        }
+        if (isset(self::$eventResponses)) {
+            self::$eventResponses  = [];
+        }
     }
 }

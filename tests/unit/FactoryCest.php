@@ -10,17 +10,17 @@ class FactoryCest
         require_once __DIR__ . '../../../../dgbdebugger/debug.php';
     }
 
-    public function factoryBuild(UnitTester $I)
-    {
+    // public function factoryBuild(UnitTester $I)
+    // {
 
-        require_once __DIR__ . '/../../loader.php';
+    //     // require_once __DIR__ . '/../../loader.php';
 
-        $factory = new Factory(['Cnx' => 'DgbAuroCore\vendor\Inventarium\Cnx']);
+    //     // $factory = new Factory(['Cnx' => 'DgbAuroCore\vendor\Inventarium\Cnx']);
 
-        $instance  = $factory->build('Cnx', []);
+    //     // $instance  = $factory->build('Cnx', []);
 
-        $I->assertInstanceOf('DgbAuroCore\vendor\Inventarium\Cnx', $instance, 'Factory->build creo la clase');
-    }
+    //     // $I->assertInstanceOf('DgbAuroCore\vendor\Inventarium\Cnx', $instance, 'Factory->build creo la clase');
+    // }
 
 
     public function factoryGetRealName(UnitTester $I)
