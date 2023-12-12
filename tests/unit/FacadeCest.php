@@ -72,7 +72,7 @@ class FacadeCest
         
         $I->assertContains('DgbAuroCore\vendor\Inventarium\Cnx', Facade::$aliases, 'Facade: El alias para "DgbAuroCore\vendor\Inventarium\Cnx" debe estar en el array de aliases');
         
-        Facade::call('Env')::init();
+        
         $I->assertTrue(!is_null(Facade::call('Env')::env('ROOT')), 'Ejecutando Facade call() con clase estatic "Env" y ejecutando su metodo "env" ');
 
     }

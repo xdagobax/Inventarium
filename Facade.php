@@ -28,6 +28,7 @@ class Facade
     {
         return self::$eventResponses;
     }
+    //TODO ¿Por que $override = true? deberia ser false por defecto no?
     public static function addAlias($alias, $class, $override = true)
     {
         //TODO esto del override me hizo fallar casi todos los test porque no inclui el parametro override ya que lo puse despues, es buena idea como prevención pero debo reflexionar mas como implementarlo .. ahiora tengo sueño
@@ -36,6 +37,14 @@ class Facade
             throw new \Exception('No se permiten explicitamente sobreescribir los alias, use el tercer parametro (override) en true en la llamada .');
         }
         self::$aliases[$alias] = $class;
+    }
+
+    public static function getAliasStr($alias)
+    {
+
+        if (isset(self::$aliases[$alias])) {
+            return self::$aliases[$alias];
+        }
     }
 
     public static function call($className, $params = [])
@@ -122,9 +131,9 @@ class Facade
         return $filteredValue;
     }
 
-    public static function addAction($hookName, $fn = null,$prioriti = 10)
+    public static function addAction($hookName, $fn = null, $prioriti = 10)
     {
-        self::addFilter($hookName, $fn,$prioriti);
+        self::addFilter($hookName, $fn, $prioriti);
     }
 
     public static function addFilter($hookName, $fn = null, $priority = 10)
@@ -141,7 +150,6 @@ class Facade
             usort(self::$hookObservers[$hookName], function ($a, $b) {
                 return $b[1] - $a[1];
             });
-            
         }
     }
 
@@ -151,8 +159,10 @@ class Facade
             unset(self::$hookObservers[$hookName]);
         }
     }
-   
+
     //TODO en las pruebasa es necesario elminar eventos previos .. pero ¿Como identificar cuando sea necesario ? Y mas importante aun ¿Como prevenir que se me olvide?
+    //TODO remover los eventos puede ser peligrosos ¿Que tal solo suspender hasta siguiente llamada?
+
     public static function removeAllEvent()
     {
         if (isset(self::$eventObservers)) {

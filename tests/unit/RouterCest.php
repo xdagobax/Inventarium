@@ -24,7 +24,7 @@ class RouterCest
         require __DIR__ . '/../../../../../aurora/aliases.php';
         require_once __DIR__ . '/../mockups/WithConstructParams.php';
 
-        Facade::call('Env')::init();
+        
 
 
         $_SERVER['REQUEST_URI'] = '/aurora/public/testget?dgb=1';

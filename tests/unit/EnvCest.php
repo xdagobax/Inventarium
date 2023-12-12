@@ -20,7 +20,6 @@ class EnvCest
         require_once __DIR__ . '/../../../../../aurora/loader.php';
 
 
-        Facade::call('Env')::init();
         
         try {
             Facade::call('Env')::env('foo');
@@ -40,7 +39,7 @@ class EnvCest
         require __DIR__ . '/../../../../../aurora/aliases.php';
         require_once __DIR__ . '/../../../../../aurora/loader.php';
 
-        Facade::call('Env')::init();
+        
 
         $I->assertTrue(!is_null(Facade::call('Env')::env('ROOT')), 'env("ROOT") ¿Es accesible y tiene un valor? ');
         $I->comment('env("ROOT") si es accesible y tiene un valor: ' . strval(Facade::call('Env')::env('ROOT')));
