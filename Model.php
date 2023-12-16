@@ -4,7 +4,7 @@ namespace DgbAuroCore\vendor\Inventarium;
 
 use DgbAuroCore\vendor\Inventarium\Facade;
 use RedBeanPHP\OODBBean;
-
+//TODO ¿Que pasa si no uso una base de datos local y uso una API?
 require_once __DIR__ . '../../../../aurocore/vendor/redbean/rb-mysql.php';
 
 class CustomBeanWrapper extends \RedBeanPHP\OODBBean
