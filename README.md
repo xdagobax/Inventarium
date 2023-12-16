@@ -1,2 +1,1 @@
 # Inventarium
-test de integracion
