@@ -91,4 +91,16 @@ class Util
         }
         return $decoded;
     }
+
+    public static function relativePathConverter($relativePath)
+    {
+        // Convertir ruta relativa en absoluta
+        $relativePath = realpath($relativePath);
+
+        // Reemplazar separadores de directorios por barras inclinadas
+        $absolutePath = str_replace('\\', '/', $relativePath);
+
+        return $absolutePath;
+    }
+
 }
