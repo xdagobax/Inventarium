@@ -3,10 +3,10 @@
 namespace DgbAuroCore\vendor\Inventarium;
 
 
-function env($key, $default = null)
-{
-    return EnvFunctions::env($key, $default);
-}
+// function env($key, $default = null)
+// {
+//     return EnvFunctions::env($key, $default);
+// }
 
 class EnvFunctions
 {
