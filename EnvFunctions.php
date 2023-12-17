@@ -17,20 +17,17 @@ class EnvFunctions
     {
         return self::$env_vars;
     }
-    public static function init()
-    {
-        //Para override
-    }
+
     public static function env($key, $default = null)
     {
         $value = self::$initready == true ? true : (function ()  {
-            self::init();
+            Facade::call('Env')::init();
             return;
             // throw new \Exception('Falta inicializar Facade::call(\'Env\')::init();');
         })();
         
         $value =isset(self::getVars()[$key]) ? isset(self::getVars()[$key]) : (function () use ($key) {
-            self::init();
+            Facade::call('Env')::init();
 
             $value =isset(self::getVars()[$key]) ? isset(self::getVars()[$key]) : (function () use ($key) {
     
