@@ -11,23 +11,26 @@ namespace DgbAuroCore\vendor\Inventarium;
 class EnvFunctions
 {
     public static $initready = false;
-    public static $env_vars = [];
+    protected static $env_vars = [];
     
     public static function getVars()
     {
         return self::$env_vars;
     }
-
+    public static function init()
+    {
+        //Para override
+    }
     public static function env($key, $default = null)
     {
         $value = self::$initready == true ? true : (function ()  {
-            Facade::call('Env')::init();
+            self::init();
             return;
             // throw new \Exception('Falta inicializar Facade::call(\'Env\')::init();');
         })();
         
         $value =isset(self::getVars()[$key]) ? isset(self::getVars()[$key]) : (function () use ($key) {
-            Facade::call('Env')::init();
+            self::init();
 
             $value =isset(self::getVars()[$key]) ? isset(self::getVars()[$key]) : (function () use ($key) {
     
