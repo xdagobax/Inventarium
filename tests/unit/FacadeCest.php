@@ -7,7 +7,8 @@ class FacadeCest
 {
     function __construct()
     {
-        require_once __DIR__ . '../../../../dgbdebugger/debug.php';
+        require_once __DIR__ . '/../../../../../lib/DgbDebugger/debug.php';
+
     }
 
     // function delegateEvent(UnitTester $I)
