@@ -35,11 +35,11 @@ class Render
         } else {
             //Relleno de nulos
 
-            if(!$showEmptys){
+            // if(!$showEmptys){
 
-                $html = preg_replace('/{{(.*?)}}/', '', $html);
-            }
-            return $html;
+            //     $html = preg_replace('/{{(.*?)}}/', '', $html);
+            // }
+            // return $html;
         }
 
         return $htmlFilled;
@@ -52,15 +52,24 @@ class Render
 
         //TODO doble check por si no se reemplazo una clave ??? Eiste otra manera mas optima?? Tal vez un while o un until 
 
+
+        
+
         foreach ($data as $clave => $valor) {
 
+            // if (strpos($html, '{{' . $clave . '}}') !== false) {
+            //     echo "La subcadena '$clave' fue encontrada en la cadena principal.";
+            // } 
             $html = str_replace('{{' . $clave . '}}', $valor, $html);
 
         }
 
         foreach ($data as $clave => $valor) {
-
-            $html = str_replace('{{' . $clave . '}}', $valor, $html);
+            if (strpos($html, '{{' . $clave . '}}') !== false) {
+                
+                self::fillHtml($data, $html);
+                // echo "La subcadena '$clave' fue encontrada en la cadena principal.";
+            } 
 
         }
 
