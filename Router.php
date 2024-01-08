@@ -32,7 +32,7 @@ class Router
 			} else {
 				// echo('No existe la rutal '. $this->requestUri );
 				// Si no se encuentra la carpeta 'DgbTools', usar la URI completa
-				$this->requestUri = rawurldecode(preg_replace('#/+#', '/', $this->requestUri)); //TODO creo que es por si hay dobles slash (//)
+				$this->requestUri = rawurldecode(preg_replace('#/+#', '/', $requestUri)); //TODO creo que es por si hay dobles slash (//)
 			// $this->requestUri = $requestUri;
 		}
 

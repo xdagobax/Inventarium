@@ -26,7 +26,7 @@ class RouterCest
         require_once __DIR__ . '/../mockups/WithConstructParams.php';
 
         
-
+        Facade::call('Env')::set('FOLDER','/aurora/public',true) ;
 
         $_SERVER['REQUEST_URI'] = '/aurora/public/testget?dgb=1';
         $router = new Router($_SERVER['REQUEST_URI']);
@@ -37,7 +37,6 @@ class RouterCest
         $router->run();
         // Capturar el resultado de echo en una variable
         $mensaje = ob_get_clean();
-
         $I->assertStringContainsString('testget', $mensaje, 'Con query params se espera testget Done!');
 
     }
