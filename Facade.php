@@ -37,13 +37,13 @@ class Facade
         //TODO de esto no tengo ninguna prueba automatizada ni escenarios
         if (function_exists('dgbInTest')) {
 
-           $override = true;
+            $override = true;
         }
 
-        
+
         if (isset(self::$aliases[$alias]) && !$override) {
             // La variable en el arreglo está definida
-            throw new \Exception('No se permiten explicitamente sobreescribir los alias, use el tercer parametro (override) en true en la llamada : '.$alias);
+            throw new \Exception('No se permiten explicitamente sobreescribir los alias, use el tercer parametro (override) en true en la llamada : ' . $alias);
         }
         self::$aliases[$alias] = $class;
     }
@@ -133,7 +133,12 @@ class Facade
 
         foreach (self::$hookObservers[$hookName] as $hookFunction) {
             if (is_callable($hookFunction[0])) {
-                $filteredValue = call_user_func_array($hookFunction[0], [$filteredValue, ...$args]);
+
+                //PHP 7.4.X debería ser 
+                // $filteredValue = call_user_func_array($hookFunction[0], [$filteredValue, ...$args]);
+                //TODO implementar archivos para soporte entre versiones
+                //Soporte PHP para versiones < 7.4 
+                $filteredValue = call_user_func_array($hookFunction[0], array_merge([$filteredValue], $args));
             }
         }
 
