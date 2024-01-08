@@ -1,0 +1,5 @@
+40/
+vendor/
+*.sql
+*.zip
+*.log

@@ -29,12 +29,21 @@ class Facade
         return self::$eventResponses;
     }
     //TODO ¿Por que $override = true? deberia ser false por defecto no?
-    public static function addAlias($alias, $class, $override = true)
+    public static function addAlias($alias, $class, $override = false)
     {
-        //TODO esto del override me hizo fallar casi todos los test porque no inclui el parametro override ya que lo puse despues, es buena idea como prevención pero debo reflexionar mas como implementarlo .. ahiora tengo sueño
+
+
+        //En los test cargo diversos archivos alias, en produccion las apps deben cargar solo su propio archivo alias o hacer el override explicitamente, no hacerlo genera resultados inesperados, sobre todo al asignar el alias de Env
+        //TODO de esto no tengo ninguna prueba automatizada ni escenarios
+        if (function_exists('dgbInTest')) {
+
+           $override = true;
+        }
+
+        
         if (isset(self::$aliases[$alias]) && !$override) {
             // La variable en el arreglo está definida
-            throw new \Exception('No se permiten explicitamente sobreescribir los alias, use el tercer parametro (override) en true en la llamada .');
+            throw new \Exception('No se permiten explicitamente sobreescribir los alias, use el tercer parametro (override) en true en la llamada : '.$alias);
         }
         self::$aliases[$alias] = $class;
     }
