@@ -16,10 +16,9 @@ class Render
         //spl es abreviacion de supply
         $env = Facade::call('Env');
         $data['splRenderAppName'] = $env::env('APP_NAME');
-        //TODO no siempre van a estar en esa carpeta ¿Como puedo configurarlo? ¿Algo como que sea default y opcional? debería exisitir una clase que administre los valores por defecto? ¿Un archivo de configuración?
         $data['splSrc'] =  $env::env('URL') . '/public/assets/img';
 
-        $html = file_get_contents($_SERVER['DOCUMENT_ROOT'] . $env::env('ROOT') . '/app/views/' . $fileAlias);
+        $html = file_get_contents($env::env('ROOT') . '/app/views/' . $fileAlias);
         if (($fileAlias) && ($data)) {
 
             if ($data) {

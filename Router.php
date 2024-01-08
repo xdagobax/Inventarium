@@ -15,11 +15,31 @@ class Router
 	{
 		//TODO aceptar url de guarda (vacia y que siempre conduzca e.g. al home)
 
-		$this->env = Facade::call('Env');//Variables de enotrno del folder y el estado del debug mode (true/false)
-		$this->requestUri = preg_replace('#/+#', '/', $requestUri);//TODO creo que es por si hay dobles slash (//)
+		$this->env = Facade::call('Env'); //Variables de enotrno del folder y el estado del debug mode (true/false)
+
+		// Dividir la URI en segmentos
+		$segments = explode('/', trim($requestUri, '/'));
+
+		$folder = str_replace('/','',$this->env::env('FOLDER'));
+		// Encontrar el índice de la carpeta 'DgbTools'
+		$index = array_search($folder, $segments);
+
+		// Verificar si se encontró la carpeta 'DgbTools'
+		if ($index !== false) {
+			// Obtener la porción de la URI a partir de la carpeta 'DgbTools'
+			$this->requestUri = '/' . implode('/', array_slice($segments, $index)).'/';
+			$this->requestUri = rawurldecode(preg_replace('#/+#', '/', $this->requestUri)); //TODO creo que es por si hay dobles slash (//)
+			} else {
+				// echo('No existe la rutal '. $this->requestUri );
+				// Si no se encuentra la carpeta 'DgbTools', usar la URI completa
+				$this->requestUri = rawurldecode(preg_replace('#/+#', '/', $this->requestUri)); //TODO creo que es por si hay dobles slash (//)
+			// $this->requestUri = $requestUri;
+		}
+
+
 	}
 
-	public function add($uri, $closure, $classParams = [],$queryparams = false)
+	public function add($uri, $closure, $classParams = [], $queryparams = false)
 	{
 
 		if (!$queryparams) {
@@ -31,7 +51,7 @@ class Router
 
 		$this->env::env('DEBUG') ? $this->debug($uri) : false;
 
-		$route = new Route($uri, $closure,$classParams);
+		$route = new Route($uri, $closure, $classParams);
 		array_push($this->routes, $route);
 	}
 
@@ -73,20 +93,19 @@ class Router
 		} else if (is_int($response)) {
 			echo  strval($response);
 		} else if ($response === true) {
-            http_response_code(200);
+			http_response_code(200);
 		} else {
-			
 
-			if(function_exists('dgbInTest')){
+
+			if (function_exists('dgbInTest')) {
 
 				header("HTTP/1.0 404 Not Found");
 				return '404';
-			}else{
+			} else {
 
 				header("HTTP/1.0 404 Not Found");
 				exit('404');
 			}
-			
 		}
 	}
 }
