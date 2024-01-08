@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
+//TODO ¿Cambiar e nombre al archivo ?  Ahora se trata de hacer deploy de apps y plugins
 
 class DeployPluginCommand extends Command
 {
@@ -73,6 +74,7 @@ class DeployPluginCommand extends Command
                 // Evitar agregar la carpeta .git y sus contenidos
                 if (
                     strpos($file, 'tests') !== false
+                    || strpos($file, '40') !== false
                     || strpos($file, '.sql') !== false
                     || strpos($file, '.log') !== false
                     || strpos($file, '.zip') !== false
@@ -92,6 +94,7 @@ class DeployPluginCommand extends Command
             }
         }
 
+        //TODO no necesariamente las dependencias y el destino estaran en la misma carpeta
         // Agregar dependencias según la configuración
         foreach ($config['dependencies'] as $dependencyName => $dependencyPath) {
             $configDependecyPath = $dependencyPath;
@@ -115,6 +118,7 @@ class DeployPluginCommand extends Command
                     // Evitar agregar la carpeta .git y sus contenidos
                     if (
                         strpos($file, 'tests') !== false
+                        || strpos($file, '40') !== false
                         || strpos($file, '.sql') !== false
                         || strpos($file, '.log') !== false
                         || strpos($file, '.zip') !== false
@@ -165,6 +169,14 @@ class DeployPluginCommand extends Command
         } else {
             die('Error al abrir el archivo ZIP para extraer');
         }
+
+        // Eliminar el archivo ZIP después de descomprimirlo
+        if (file_exists("$destiny/$folderName.zip")) {
+            unlink("$destiny/$folderName.zip");
+        } else {
+            die('Error: El archivo ZIP no existe');
+        }
+
 
         $output->writeln('Elegiste: ' . $folderName);
         return 0;
