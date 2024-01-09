@@ -17,43 +17,45 @@ class DeployPluginCommand extends Command
 
         $this->setName('dagoba:DeployPlugin')
             ->setDescription('Zip del plugin y copia al entorno de producción local')
-            ->addArgument('folder', InputArgument::REQUIRED, 'Folder del plugin en desarrollo', null);
+            ->addArgument('folder', InputArgument::REQUIRED, 'Folder del plugin en desarrollo', null)
+            ->addArgument('deleteZip', InputArgument::OPTIONAL, 'Eliminar el zip al finalizar', false);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $folderName = $input->getArgument('folder');
+        $deleteZipOption = $input->getArgument('deleteZip');
         $root = 'C:/laragon/www';
         $folder = 'C:/laragon/www/apps/' . $folderName;
         $destiny = "C:/laragon/www/dist";
-
-        // Eliminar el archivo ZIP si existe
-        $existingZipFile = "$destiny/$folderName.zip";
-        if (file_exists($existingZipFile)) {
-            unlink($existingZipFile);
-        }
-
-        // Eliminar la carpeta de destino si existe
-        $existingDestinyFolder = "$destiny/$folderName";
-        if (is_dir($existingDestinyFolder)) {
-            $this->deleteDirectory($existingDestinyFolder);
-        }
+        $path = "$destiny/$folderName";
 
 
+        $this->deletePreviousContent($path);
 
-        // Leer la configuración desde el archivo dist.config
-        $configFile = "$folder/dist.config";
-        $config = parse_ini_file($configFile, true);
+        //TODO ¿que pasa si no hay dependencias o configuraciones? El nombre $config expresa lo que es?
+        $config = $this->checkConfigFile($folder);
 
-        if ($config === false) {
-            die("Error al leer el archivo de configuración: $configFile");
-        }
+        $zip = $this->createZip($path);
 
-        $zip = new \ZipArchive();
+        $zip = $this->addAppFilesToZip($folder, $folderName, $zip);
 
-        if ($zip->open("$destiny/$folderName.zip", \ZipArchive::CREATE) === false) {
-            die('Error al abrir el archivo ZIP');
-        }
+        $zip = $this->addDependencyFilesToZip($root, $config, $folderName, $zip);
+
+        $zip->close();
+
+        $this->extractZipFiles($path, $destiny);
+
+        // $this->deleteZip($path);
+
+
+        $output->writeln('Elegiste: ' . $folderName);
+        return 0;
+    }
+
+
+    private function addAppFilesToZip($folder, $folderName, $zip)
+    {
 
         // Agregar archivos del folder del parámetro
         if (is_dir($folder) === true) {
@@ -78,6 +80,8 @@ class DeployPluginCommand extends Command
                     || strpos($file, '.sql') !== false
                     || strpos($file, '.log') !== false
                     || strpos($file, '.zip') !== false
+                    || strpos($file, 'Env.php') !== false
+                    || strpos($file, "$folderName/dist") !== false
 
                 ) {
                     continue;
@@ -93,6 +97,30 @@ class DeployPluginCommand extends Command
                 }
             }
         }
+
+        $zip->addFile("$folder/dist/Env.php","$folderName/Env.php");
+
+        return $zip;
+    }
+
+
+    private function checkConfigFile($folder)
+    {
+        // Leer la configuración desde el archivo dist.config
+        $configFile = "$folder/dist/dist.config";
+        if (!file_exists($configFile)) {
+            die('El archivo dist.confog no existe');
+        } 
+        $config = parse_ini_file($configFile, true);
+
+        if ($config === false) {
+            die("Error al leer el archivo de configuración: $configFile");
+        }
+        return $config;
+    }
+
+    private function addDependencyFilesToZip($root, $config, $folderName, $zip)
+    {
 
         //TODO no necesariamente las dependencias y el destino estaran en la misma carpeta
         // Agregar dependencias según la configuración
@@ -122,6 +150,7 @@ class DeployPluginCommand extends Command
                         || strpos($file, '.sql') !== false
                         || strpos($file, '.log') !== false
                         || strpos($file, '.zip') !== false
+                        
 
                     ) {
                         continue;
@@ -138,10 +167,7 @@ class DeployPluginCommand extends Command
                     }
 
 
-
-                    $localPath = $folderName . '/vendor/' . $configDependecyPath . '/' . str_replace($dependencyPath . '/', '', $file);
-
-
+                    $localPath = $folderName . '/vendor/' . $dependencyName. '/' . str_replace($dependencyPath . '/', '', $file);
 
                     if (is_dir($file) === true) {
                         // No hacer nada para las carpetas, ya que serán creadas automáticamente durante la extracción
@@ -151,13 +177,15 @@ class DeployPluginCommand extends Command
                 }
             }
         }
+        return $zip;
+    }
 
-        $zip->close();
-
+    private function extractZipFiles($path, $destiny)
+    {
         // Extraer el ZIP en la ubicación de destino
         $zip = new \ZipArchive();
 
-        if ($zip->open("$destiny/$folderName.zip") === true) {
+        if ($zip->open("$path.zip") === true) {
             // Asegurar que el directorio de destino exista
             if (!is_dir("$destiny")) {
                 mkdir("$destiny");
@@ -169,19 +197,45 @@ class DeployPluginCommand extends Command
         } else {
             die('Error al abrir el archivo ZIP para extraer');
         }
+    }
+
+    private function deleteZip($path)
+    {
 
         // Eliminar el archivo ZIP después de descomprimirlo
-        if (file_exists("$destiny/$folderName.zip")) {
-            unlink("$destiny/$folderName.zip");
+        if (file_exists("$path.zip")) {
+            unlink("$path.zip");
         } else {
             die('Error: El archivo ZIP no existe');
         }
-
-
-        $output->writeln('Elegiste: ' . $folderName);
-        return 0;
     }
 
+    private function createZip($path)
+    {
+        $zip = new \ZipArchive();
+
+        if ($zip->open("$path.zip", \ZipArchive::CREATE) === false) {
+            die('Error al abrir el archivo ZIP');
+        }
+        return $zip;
+    }
+
+
+
+    private function deletePreviousContent($path)
+    {
+        // Eliminar el archivo ZIP si existe
+        $existingZipFile = "$path.zip";
+        if (file_exists($existingZipFile)) {
+            unlink($existingZipFile);
+        }
+
+        // Eliminar la carpeta de destino si existe
+        $existingDestinyFolder = "$path";
+        if (is_dir($existingDestinyFolder)) {
+            $this->deleteDirectory($existingDestinyFolder);
+        }
+    }
     // Función para eliminar una carpeta y su contenido de forma recursiva
     private function deleteDirectory($dir)
     {
@@ -214,7 +268,7 @@ class DeployPluginCommand extends Command
         $plugin = $input->getArgument('folder');
 
         if (is_dir("C:/laragon/www/apps/$plugin") === false) {
-            $output->writeln("No existe el plugin ¿Lo escribiste bien?");
+            $output->writeln("No existe el folder $plugin ¿Lo escribiste bien?");
             die;
         }
     }
