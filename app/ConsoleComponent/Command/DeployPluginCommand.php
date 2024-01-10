@@ -46,10 +46,11 @@ class DeployPluginCommand extends Command
 
         $this->extractZipFiles($path, $destiny);
 
-        // $this->deleteZip($path);
+        // $this->deleteZip($path); //XXX hay que implementarlo como opcional
 
 
         $output->writeln('Elegiste: ' . $folderName);
+        $output->writeln('Velo en : http://localhost/dist/' . $folderName);
         return 0;
     }
 
