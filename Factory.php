@@ -5,30 +5,42 @@ namespace DgbAuroCore\vendor\Inventarium;
 
 class Factory
 {
-    
+
     protected $alias = [];
 
-    
+
     public function __construct($alias)
     {
         $this->alias = $alias;
     }
 
-    
+
     private function getRealName($name)
     {
+
+        //Podría extraer el alias del $name pero prefiero mantener la mecanica de registrar los alias para restringir errores logicos ya que las librerias deben usar los alias que asigne la app que las consuma
+
+        $aliasName = array_search($name, $this->alias);
+
+        if ($aliasName !== false) {
+            return $this->alias[$aliasName];
+        }
+
+
         if (!isset($this->alias[$name])) {
-            throw new \Exception("Alias for class '$name' not found.");
+            throw new \Exception("
+            \n\nFactory-build Err: Alias for class '$name' not found.
+            \nRegister it using addAlias method or use Facade::call instead.
+            ");
         }
 
         return $this->alias[$name];
     }
 
-   
+
     public function build($name, $params = [])
     {
 
-        
 
         try {
 
@@ -72,11 +84,11 @@ class Factory
                     $value = null;
                     if ($parameter->isDefaultValueAvailable() && !isset($params[$i])) {
                         $value = $parameter->getDefaultValue();
-                    }elseif (isset($params[$i])) {
+                    } elseif (isset($params[$i])) {
                         $value = $params[$i];
                     }
 
-                   
+
                     //Son necesarios los parametros y no se enviaron al instanciar la clase
                     if (is_null($value)) {
                         // dgbdd($parameter->isDefaultValueAvailable());
@@ -91,18 +103,24 @@ class Factory
                 }
                 $i++;
                 // Crea una nueva instancia de la clase con los argumentos construidos
-          
+
             }
 
             if (is_subclass_of($name, Singleton::class)) {
                 return $name::create($args);
             }
 
-            
+
             return $reflection->newInstanceArgs($args);
         } catch (\Exception $e) {
 
-            $msg = 'Error trying to build "' . $name . '": ' . $e->getMessage().' linea: '. $e->getLine();
+            if (strpos($name, ".php") !== false) {
+                throw new \Exception('Factory->bulid Err: No debes incluir la extension php en el namespace ');
+            }
+
+
+
+            $msg = 'Error construyendo "' . $name . '": ' . $e->getMessage() . ' linea: ' . $e->getLine();
 
             //TODO muy largo y util, meter en util.php o algun lado refactorizar
             $filteredTrace = '';
@@ -121,7 +139,11 @@ class Factory
             $msg .= "\nStack trace:\n" . $filteredTrace;
 
             throw new \Exception($msg);
-            
         }
+    }
+
+    public function addAlias(string $alias, string $realName)
+    {
+        $this->alias[$alias] =  $realName;
     }
 }
