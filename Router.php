@@ -1,8 +1,8 @@
 <?php
 //TODO debo crear una clase especializad en manejar el debuggin , por ejemp0lo para hacer debuggin selectivo del router o del loader.
-namespace DgbAuroCore\vendor\Inventarium;
+namespace DgbAuroCore\lib\Inventarium;
 
-use DgbAuroCore\vendor\Inventarium\Facade;
+use DgbAuroCore\lib\Inventarium\Facade;
 
 class Router
 {
@@ -13,6 +13,8 @@ class Router
 
 	public function __construct($requestUri)
 	{
+
+		// XXX ¿Y si mejor uso esto:  $ruta = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 		//TODO aceptar url de guarda (vacia y que siempre conduzca e.g. al home)
 
 		$this->env = Facade::call('Env'); //Variables de enotrno del folder y el estado del debug mode (true/false)

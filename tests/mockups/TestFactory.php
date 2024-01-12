@@ -1,9 +1,9 @@
 <?php
 
-namespace DgbAuroCore\vendor\Inventarium\tests\mockups;
+namespace DgbAuroCore\lib\Inventarium\tests\mockups;
 
-use DgbAuroCore\vendor\Inventarium\Controller;
-use DgbAuroCore\vendor\Inventarium\Model;
+use DgbAuroCore\lib\Inventarium\Controller;
+use DgbAuroCore\lib\Inventarium\Model;
 
 //Probar si se inyectan las clases con la factoria
 class TestFactory

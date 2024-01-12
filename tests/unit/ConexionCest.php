@@ -1,6 +1,6 @@
 <?php
 
-use DgbAuroCore\vendor\Inventarium\tests\mockups\conexion;
+use DgbAuroCore\lib\Inventarium\tests\mockups\conexion;
 use TestCore\UnitTester;
 
 
@@ -10,7 +10,7 @@ class ConexionCest
     function __construct()
     {
        
-        require_once __DIR__ . '/../../../../../lib/DgbDebugger/debug.php';
+        require_once __DIR__ . '/../../../DgbDebugger/debug.php';
 
     }
 

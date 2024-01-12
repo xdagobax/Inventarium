@@ -1,8 +1,8 @@
 <?php
 
-namespace DgbAuroCore\vendor\Inventarium;
+namespace DgbAuroCore\lib\Inventarium;
 
-use DgbAuroCore\vendor\Inventarium\Render;
+use DgbAuroCore\lib\Inventarium\Render;
 
 class Controller
 

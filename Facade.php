@@ -3,9 +3,9 @@
 //Este artefacto es muy util para instanciar o referirse a clases de la aplicacion de manera dinamica, las cuales no estan en el ambito del core ya que el core lopueden consumir diversas aplicaciones 
 
 
-namespace DgbAuroCore\vendor\Inventarium;
+namespace DgbAuroCore\lib\Inventarium;
 
-use DgbAuroCore\vendor\Inventarium\Factory;
+use DgbAuroCore\lib\Inventarium\Factory;
 
 
 function compararPorPrioridad($a, $b)
@@ -81,7 +81,7 @@ class Facade
             $eventObservers = self::$eventObservers[$eventName];
 
 
-            usort($eventObservers, 'DgbAuroCore\vendor\Inventarium\compararPorPrioridad');
+            usort($eventObservers, 'DgbAuroCore\lib\Inventarium\compararPorPrioridad');
             // dgbec($eventName);
             // dgbpc($eventObservers);
 

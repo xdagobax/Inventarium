@@ -1,13 +1,13 @@
 <?php
 
-use DgbAuroCore\vendor\Inventarium\Facade;
+use DgbAuroCore\lib\Inventarium\Facade;
 use TestCore\UnitTester;
 
 class HooksCest
 {
     function __construct()
     {
-        require_once __DIR__ . '/../../../../../lib/DgbDebugger/debug.php';
+        require_once __DIR__ . '/../../../DgbDebugger/debug.php';
 
     }
 

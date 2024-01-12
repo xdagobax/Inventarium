@@ -1,7 +1,7 @@
 <?php
 
-namespace DgbAuroCore\vendor\Inventarium\tests\mockups;
-use DgbAuroCore\vendor\Inventarium\EnvFunctions;
+namespace DgbAuroCore\lib\Inventarium\tests\mockups;
+use DgbAuroCore\lib\Inventarium\EnvFunctions;
 
 
 // function env($key, $default = null)

@@ -1,6 +1,6 @@
 <?php
 
-namespace DgbAuroCore\vendor\Inventarium;
+namespace DgbAuroCore\lib\Inventarium;
 
 
 class Factory

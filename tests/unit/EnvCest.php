@@ -1,6 +1,6 @@
 <?php
 
-use DgbAuroCore\vendor\Inventarium\Facade;
+use DgbAuroCore\lib\Inventarium\Facade;
 use TestCore\UnitTester;
 
 
@@ -9,7 +9,7 @@ class EnvCest
 {
     function __construct()
     {
-        require_once __DIR__ . '/../../../../../lib/DgbDebugger/debug.php';
+        require_once __DIR__ . '/../../../DgbDebugger/debug.php';
 
     }
 
@@ -17,8 +17,8 @@ class EnvCest
     public function envVarHaveNullDefaultValue(UnitTester $I)
     {
         require_once __DIR__ . '/../../loader.php';
-        require __DIR__ . '/../../../../../aurora/aliases.php';
-        require_once __DIR__ . '/../../../../../aurora/loader.php';
+        require __DIR__ . '/../../../../aurora/aliases.php';
+        require_once __DIR__ . '/../../../../aurora/loader.php';
 
 
         
@@ -37,8 +37,8 @@ class EnvCest
     public function envFuncionEsAccesible(UnitTester $I)
     {
         require_once __DIR__ . '/../../loader.php';
-        require __DIR__ . '/../../../../../aurora/aliases.php';
-        require_once __DIR__ . '/../../../../../aurora/loader.php';
+        require __DIR__ . '/../../../../aurora/aliases.php';
+        require_once __DIR__ . '/../../../../aurora/loader.php';
 
         
 

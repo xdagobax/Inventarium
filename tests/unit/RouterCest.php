@@ -1,7 +1,7 @@
 <?php
 
-use DgbAuroCore\vendor\Inventarium\Facade;
-use DgbAuroCore\vendor\Inventarium\Router;
+use DgbAuroCore\lib\Inventarium\Facade;
+use DgbAuroCore\lib\Inventarium\Router;
 use TestCore\UnitTester;
 
 
@@ -10,7 +10,7 @@ class RouterCest
 {
     function __construct()
     {
-        require_once __DIR__ . '/../../../../../lib/DgbDebugger/debug.php';
+        require_once __DIR__ . '/../../../DgbDebugger/debug.php';
 
     }
 
@@ -21,8 +21,8 @@ class RouterCest
         //TODO es facil olvidar que pruebas como esta estan implementadas y son importantes para escenarios ficticios.
         require_once __DIR__ . '/../../loader.php';
         require_once __DIR__ . '/../../aliases.php';
-        require_once __DIR__ . '/../../../../../aurora/loader.php';
-        require __DIR__ . '/../../../../../aurora/aliases.php';
+        require_once __DIR__ . '/../../../../aurora/loader.php';
+        require __DIR__ . '/../../../../aurora/aliases.php';
         require_once __DIR__ . '/../mockups/WithConstructParams.php';
 
         

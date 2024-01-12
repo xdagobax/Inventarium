@@ -7,7 +7,7 @@ class MockUpCest
 {
     function __construct()
     {
-        require_once __DIR__ . '/../../../../../lib/DgbDebugger/debug.php';
+        require_once __DIR__ . '/../../../DgbDebugger/debug.php';
 
     }
 

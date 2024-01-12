@@ -1,5 +1,5 @@
 <?php
-namespace DgbAuroCore\vendor\Inventarium\interfaces;
+namespace DgbAuroCore\lib\Inventarium\interfaces;
 
 interface SessionManagerInterface
 {

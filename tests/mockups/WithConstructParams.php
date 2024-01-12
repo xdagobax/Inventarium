@@ -1,5 +1,5 @@
 <?php
-namespace DgbAuroCore\vendor\Inventarium\tests\mockups;
+namespace DgbAuroCore\lib\Inventarium\tests\mockups;
 
 class WithConstructParams{
 

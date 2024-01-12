@@ -1,11 +1,11 @@
 <?php
 
-namespace DgbAuroCore\vendor\Inventarium;
+namespace DgbAuroCore\lib\Inventarium;
 
-use DgbAuroCore\vendor\Inventarium\Facade;
+use DgbAuroCore\lib\Inventarium\Facade;
 use RedBeanPHP\OODBBean;
 //TODO ¿Que pasa si no uso una base de datos local y uso una API?
-require_once __DIR__ . '../../../../aurocore/vendor/redbean/rb-mysql.php';
+require_once __DIR__ . '/../redbean/rb-mysql.php';
 
 class CustomBeanWrapper extends \RedBeanPHP\OODBBean
 {
@@ -33,7 +33,7 @@ class CustomBeanWrapper extends \RedBeanPHP\OODBBean
     }
 }
 
-use DgbAuroCore\vendor\Inventarium\interfaces\SessionManagerInterface;
+use DgbAuroCore\lib\Inventarium\interfaces\SessionManagerInterface;
 
 
 class Model

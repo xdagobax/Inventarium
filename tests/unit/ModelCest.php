@@ -1,14 +1,14 @@
 <?php
 
-use DgbAuroCore\vendor\Inventarium\tests\mockups\MkModelSun;
-use DgbAuroCore\vendor\Inventarium\Facade;
+use DgbAuroCore\lib\Inventarium\tests\mockups\MkModelSun;
+use DgbAuroCore\lib\Inventarium\Facade;
 use TestCore\UnitTester;
 
 class ModelCest
 {
     function __construct()
     {
-        require_once __DIR__ . '/../../../../../lib/DgbDebugger/debug.php';
+        require_once __DIR__ . '/../../../DgbDebugger/debug.php';
     }
 
     
@@ -19,8 +19,8 @@ class ModelCest
         require_once __DIR__ . '/../../aliases.php';
 
         //Tengo que usar estos requires porque el constructor de los modelos (Model) usa Env
-        require_once __DIR__ . '/../../../../../aurora/loader.php';
-        require __DIR__ . '/../../../../../aurora/aliases.php';
+        require_once __DIR__ . '/../../../../aurora/loader.php';
+        require __DIR__ . '/../../../../aurora/aliases.php';
 
 
         $modelsun = new MkModelSun();
@@ -28,12 +28,12 @@ class ModelCest
 
     //TODO este test prueba la app y un modelo (Domains) del cliente ... No deberiamos usar un mockup o probar directo la clase modelo del core ?
     public function retrieveRegisterByValue(UnitTester $I){
-        require_once __DIR__ . '/../../../../../aurora/loader.php';
+        require_once __DIR__ . '/../../../../aurora/loader.php';
         require_once __DIR__ . '/../../loader.php';
 
         //'Domains' es un modelo en la app y los modelos usan Env
         require_once __DIR__ . '/../../aliases.php';
-        require __DIR__ . '/../../../../../aurora/aliases.php';
+        require __DIR__ . '/../../../../aurora/aliases.php';
 
 
         $domain = Facade::call('Domains');
@@ -51,10 +51,10 @@ class ModelCest
      */
     public function getById(UnitTester $I){
 
-        require_once __DIR__ . '/../../../../../aurora/loader.php';
+        require_once __DIR__ . '/../../../../aurora/loader.php';
         require_once __DIR__ . '/../../loader.php';
         require_once __DIR__ . '/../../aliases.php';
-        require __DIR__ . '/../../../../../aurora/aliases.php';
+        require __DIR__ . '/../../../../aurora/aliases.php';
 
 
         $modelsun = Facade::call('MkModelSun');
@@ -74,10 +74,10 @@ class ModelCest
     public function storeBean(UnitTester $I)
     {
 
-        require_once __DIR__ . '/../../../../../aurora/loader.php';
+        require_once __DIR__ . '/../../../../aurora/loader.php';
         require_once __DIR__ . '/../../loader.php';
         require_once __DIR__ . '/../../aliases.php';
-        require __DIR__ . '/../../../../../aurora/aliases.php';
+        require __DIR__ . '/../../../../aurora/aliases.php';
 
         $m = new MkModelSun(Facade::call('Sentinela'));
 

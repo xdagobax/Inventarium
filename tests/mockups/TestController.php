@@ -1,9 +1,9 @@
 <?php
 
-namespace DgbAuroCore\vendor\Inventarium\tests\mockups;
+namespace DgbAuroCore\lib\Inventarium\tests\mockups;
 
-use DgbAuroCore\vendor\Inventarium\Controller;
-use DgbAuroCore\vendor\Inventarium\Facade;
+use DgbAuroCore\lib\Inventarium\Controller;
+use DgbAuroCore\lib\Inventarium\Facade;
 
 class TestController extends Controller
 {
