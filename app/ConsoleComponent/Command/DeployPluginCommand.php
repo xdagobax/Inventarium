@@ -81,7 +81,6 @@ class DeployPluginCommand extends Command
                     || strpos($file, '.sql') !== false
                     || strpos($file, '.log') !== false
                     || strpos($file, '.zip') !== false
-                    || strpos($file, 'Env.php') !== false
                     || strpos($file, "$folderName/dist") !== false
 
                 ) {
@@ -99,7 +98,6 @@ class DeployPluginCommand extends Command
             }
         }
 
-        $zip->addFile("$folder/dist/Env.php","$folderName/Env.php");
 
         return $zip;
     }
