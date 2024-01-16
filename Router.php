@@ -1,8 +1,8 @@
 <?php
 //TODO debo crear una clase especializad en manejar el debuggin , por ejemp0lo para hacer debuggin selectivo del router o del loader.
-namespace DgbAuroCore\lib\Inventarium;
+namespace DgbAuroCore\vendor\Inventarium;
 
-use DgbAuroCore\lib\Inventarium\Facade;
+use DgbAuroCore\vendor\Inventarium\Facade;
 
 class Router
 {

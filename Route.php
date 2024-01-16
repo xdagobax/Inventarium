@@ -1,8 +1,8 @@
 <?php
 
-namespace DgbAuroCore\lib\Inventarium;
+namespace DgbAuroCore\vendor\Inventarium;
 
-use DgbAuroCore\lib\Inventarium\Facade;
+use DgbAuroCore\vendor\Inventarium\Facade;
 
 class Route {
 

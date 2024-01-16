@@ -1,7 +1,7 @@
 <?php
 
-use DgbAuroCore\lib\Inventarium\tests\mockups\MkModelSun;
-use DgbAuroCore\lib\Inventarium\Facade;
+use DgbAuroCore\vendor\Inventarium\tests\mockups\MkModelSun;
+use DgbAuroCore\vendor\Inventarium\Facade;
 use TestCore\UnitTester;
 
 class ModelCest

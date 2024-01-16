@@ -1,6 +1,6 @@
 <?php
-namespace DgbAuroCore\lib\Inventarium;
-use DgbAuroCore\lib\Inventarium\Facade;
+namespace DgbAuroCore\vendor\Inventarium;
+use DgbAuroCore\vendor\Inventarium\Facade;
 
 
 //Sustitor, Cortador,Cutter, Mimic,Replicant,Pretender,CopyCat,Replacer,Fiter,Thief,Substitutor, Usurpe, Filler,clone,Identity,TwinTrick,TakeOver,Posesion,Infiltrado.Alternate,Switcher,Ilusionista

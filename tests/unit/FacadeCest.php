@@ -1,6 +1,6 @@
 <?php
 
-use DgbAuroCore\lib\Inventarium\Facade;
+use DgbAuroCore\vendor\Inventarium\Facade;
 use TestCore\UnitTester;
 
 class FacadeCest
@@ -44,7 +44,7 @@ class FacadeCest
         $I->assertStringContainsString($paramA, $WithConstructParams->a, 'con UN parametro de DOS');
         $WithConstructParams = Facade::call('WithConstructParams', [$paramA,$paramB]);
         $I->assertStringContainsString($paramA.$paramB, $WithConstructParams->a.$WithConstructParams->b, 'con DOS parametro de DOS');
-        $I->assertInstanceOf('DgbAuroCore\lib\Inventarium\tests\mockups\WithConstructParams', $WithConstructParams, 'Facade instancia con parametros');
+        $I->assertInstanceOf('DgbAuroCore\vendor\Inventarium\tests\mockups\WithConstructParams', $WithConstructParams, 'Facade instancia con parametros');
 
         //instanciar clase sin parametros cuando son requeridos
         //debe fallar
@@ -71,7 +71,7 @@ class FacadeCest
         require __DIR__ . '/../../../../aurora/aliases.php';
 
         
-        $I->assertContains('DgbAuroCore\lib\Inventarium\Cnx', Facade::$aliases, 'Facade: El alias para "DgbAuroCore\lib\Inventarium\Cnx" debe estar en el array de aliases');
+        $I->assertContains('DgbAuroCore\vendor\Inventarium\Cnx', Facade::$aliases, 'Facade: El alias para "DgbAuroCore\vendor\Inventarium\Cnx" debe estar en el array de aliases');
         
         
         $I->assertTrue(!is_null(Facade::call('Env')::env('ROOT')), 'Ejecutando Facade call() con clase estatic "Env" y ejecutando su metodo "env" ');

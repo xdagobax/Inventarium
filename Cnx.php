@@ -1,8 +1,8 @@
 <?php
 
-namespace DgbAuroCore\lib\Inventarium;
+namespace DgbAuroCore\vendor\Inventarium;
 
-use DgbAuroCore\lib\Inventarium\Facade;
+use DgbAuroCore\vendor\Inventarium\Facade;
 
 
 //TODO de momento no hago nada con esta clase pero siento feo eliminarla, probablemente la use para realizar operaciones con comandos sql en los cms donde no puedo usar redBean

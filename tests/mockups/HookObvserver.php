@@ -1,8 +1,8 @@
 <?php
 
-namespace DgbAuroCore\lib\Inventarium\tests\mockups;
+namespace DgbAuroCore\vendor\Inventarium\tests\mockups;
 
-use DgbAuroCore\lib\Inventarium\Facade;
+use DgbAuroCore\vendor\Inventarium\Facade;
 
 //TODO clase vacia
 class HookObvserver

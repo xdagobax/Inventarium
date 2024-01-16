@@ -21,6 +21,6 @@ class AutoLoadCest
 
         // Verificar que las clases se hayan cargado correctamente
         $I->assertTrue(class_exists('DgbAurora\Env'), 'Autoload carga Env');
-        $I->assertTrue(class_exists('DgbAuroCore\lib\Inventarium\Controller'), 'Autoload carga Controller');
+        $I->assertTrue(class_exists('DgbAuroCore\vendor\Inventarium\Controller'), 'Autoload carga Controller');
     }
 }

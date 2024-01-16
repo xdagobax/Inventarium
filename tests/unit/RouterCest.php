@@ -1,7 +1,7 @@
 <?php
 
-use DgbAuroCore\lib\Inventarium\Facade;
-use DgbAuroCore\lib\Inventarium\Router;
+use DgbAuroCore\vendor\Inventarium\Facade;
+use DgbAuroCore\vendor\Inventarium\Router;
 use TestCore\UnitTester;
 
 

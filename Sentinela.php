@@ -1,8 +1,8 @@
 <?php
 
-namespace DgbAuroCore\lib\Inventarium;
+namespace DgbAuroCore\vendor\Inventarium;
 
-use DgbAuroCore\lib\Inventarium\interfaces\SessionManagerInterface;
+use DgbAuroCore\vendor\Inventarium\interfaces\SessionManagerInterface;
 
 
 class Sentinela extends Singleton implements SessionManagerInterface

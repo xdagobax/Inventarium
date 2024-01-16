@@ -1,7 +1,7 @@
 <?php
 namespace TestCore;
 
-use DgbAuroCore\lib\Inventarium\Facade;
+use DgbAuroCore\vendor\Inventarium\Facade;
 use TestCore\UnitTester;
 
 

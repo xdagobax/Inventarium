@@ -1,6 +1,6 @@
 <?php
 
-namespace DgbAuroCore\lib\Inventarium;
+namespace DgbAuroCore\vendor\Inventarium;
 
 
 // function env($key, $default = null)

@@ -1,6 +1,6 @@
 <?php
 
-use DgbAuroCore\lib\Inventarium\tests\mockups\conexion;
+use DgbAuroCore\vendor\Inventarium\tests\mockups\conexion;
 use TestCore\UnitTester;
 
 

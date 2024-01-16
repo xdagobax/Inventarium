@@ -1,9 +1,9 @@
 <?php
 
-namespace DgbAuroCore\lib\Inventarium\tests\mockups;
+namespace DgbAuroCore\vendor\Inventarium\tests\mockups;
 
-use DgbAuroCore\lib\Inventarium\Model;
-use DgbAuroCore\lib\Inventarium\interfaces\SessionManagerInterface;
+use DgbAuroCore\vendor\Inventarium\Model;
+use DgbAuroCore\vendor\Inventarium\interfaces\SessionManagerInterface;
 
 
 class MkModelSun extends Model
