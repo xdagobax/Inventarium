@@ -1,4 +1,5 @@
 <?php
+namespace TestCore;
 
 use DgbAuroCore\lib\Inventarium\Facade;
 use TestCore\UnitTester;
@@ -21,11 +22,10 @@ class EnvCest
         require_once __DIR__ . '/../../../../aurora/loader.php';
 
 
-        
         try {
             Facade::call('Env')::env('foo');
-        } catch (Throwable $exception) {
-            $I->expectThrowable(Exception::class, function () use ($exception, $I) {
+        } catch (\Throwable $exception) {
+            $I->expectThrowable(\Exception::class, function () use ($exception, $I) {
                 throw $exception;
             }, 'La env foo no existe');
             $I->comment($exception->getMessage());
