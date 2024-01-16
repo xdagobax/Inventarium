@@ -55,6 +55,11 @@ class Facade
             return self::$aliases[$alias];
         }
     }
+    
+    public static function removeAllAlias()
+    {
+        self::$aliases = array();
+    }
 
     public static function call($className, $params = [])
     {
