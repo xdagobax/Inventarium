@@ -83,6 +83,7 @@ class DeployPluginCommand extends Command
                     || strpos($file, '.sql') !== false
                     || strpos($file, '.log') !== false
                     || strpos($file, '.zip') !== false
+                    || strpos($file, 'dgbdev.dummy') !== false
                     || strpos($file, "$folderName/dist") !== false
 
                 ) {
