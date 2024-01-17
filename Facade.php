@@ -124,12 +124,19 @@ class Facade
         // 
         array_push(self::$eventObservers[$event], [$obj, $prioriti]);
     }
+
+    //XXX faltan test para esto, si estan pero en la clase hookCest hace falta pasarlos a facadeCest
     public static function doAction($hookName, ...$args)
     {
+
+        //TODO solo hace exactamente lo mismo que applyFilter??
         return self::applyFilter($hookName, ...$args);
     }
+
+    //XXX Faltan test que ilustren esta funcion con sus argumentos en UpdateControllerCest hay una implementacion con argumentos
     public static function applyFilter($hookName, $initialValue = null, ...$args)
     {
+        // dgbdc(isset(self::$hookObservers[$hookName]));
         if (!isset(self::$hookObservers[$hookName])) {
             return $initialValue;
         }
@@ -155,6 +162,7 @@ class Facade
         self::addFilter($hookName, $fn, $prioriti);
     }
 
+//TODO cual es la prioridad mas alta 10 o 0?
     public static function addFilter($hookName, $fn = null, $priority = 10)
     {
         if (!isset(self::$hookObservers[$hookName])) {
