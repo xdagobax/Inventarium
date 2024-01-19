@@ -1,8 +1,5 @@
 <?php
 
-// webhook.php
-
-
 
 // Verificar la clave secreta
 
@@ -11,8 +8,6 @@ $secret = '@Privado33'; // Reemplaza con tu clave secreta
 $webhookContent = file_get_contents('php://input');
 
 $hash = hash_hmac('sha256', $webhookContent, $secret);
-
-
 
 // Configurar nombre y correo electrónico si no están configurados
 

@@ -2,8 +2,6 @@
 
 namespace DgbAuroCore\vendor\Inventarium;
 
-use DgbAuroCore\vendor\Inventarium\Facade;
-
 
 //TODO de momento no hago nada con esta clase pero siento feo eliminarla, probablemente la use para realizar operaciones con comandos sql en los cms donde no puedo usar redBean
 class Cnx extends Singleton

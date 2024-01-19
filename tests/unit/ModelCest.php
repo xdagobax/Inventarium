@@ -1,5 +1,5 @@
 <?php
-
+//TODO y el namespace?
 use DgbAuroCore\vendor\Inventarium\tests\mockups\MkModelSun;
 use DgbAuroCore\vendor\Inventarium\Facade;
 use TestCore\UnitTester;
@@ -8,6 +8,7 @@ class ModelCest
 {
     function __construct()
     {
+        //TODO y la interfaz de dpendencias?
         require_once __DIR__ . '/../../../DgbDebugger/debug.php';
     }
 
@@ -15,14 +16,17 @@ class ModelCest
     public function redBean(UnitTester $I)
     {
         
+        //TODO los requires deben ir en el cosntructor
         require_once __DIR__ . '/../../loader.php';
         require_once __DIR__ . '/../../aliases.php';
 
         //Tengo que usar estos requires porque el constructor de los modelos (Model) usa Env
+        //TODO creo que no debería ser asi, siempre debe usarse el require del cliente 
         require_once __DIR__ . '/../../../../aurora/loader.php';
         require __DIR__ . '/../../../../aurora/aliases.php';
 
 
+        //TODO y el assert? o basta con que no lance error? Un assert typeif podría ser la solucion
         $modelsun = new MkModelSun();
     }
 
@@ -46,11 +50,9 @@ class ModelCest
 
     }
 
-     /**
-     * @group grupo_problem
-     */
     public function getById(UnitTester $I){
 
+        //TODO los requires deben ir en el cosntructor
         require_once __DIR__ . '/../../../../aurora/loader.php';
         require_once __DIR__ . '/../../loader.php';
         require_once __DIR__ . '/../../aliases.php';
@@ -74,6 +76,7 @@ class ModelCest
     public function storeBean(UnitTester $I)
     {
 
+        //TODO los requires deben ir en el cosntructor
         require_once __DIR__ . '/../../../../aurora/loader.php';
         require_once __DIR__ . '/../../loader.php';
         require_once __DIR__ . '/../../aliases.php';

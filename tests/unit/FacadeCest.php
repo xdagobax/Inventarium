@@ -1,5 +1,5 @@
 <?php
-
+//TODO y el namespace?
 use DgbAuroCore\vendor\Inventarium\Facade;
 use TestCore\UnitTester;
 
@@ -11,6 +11,7 @@ class FacadeCest
 
     }
 
+    //TODO habilitar y pasar esta prueba
     // function delegateEvent(UnitTester $I)
     // {
     //     // require_once __DIR__ . '/../../loader.php';
@@ -80,11 +81,7 @@ class FacadeCest
 
     public function FacadeMsgClasesSinAlias(UnitTester $I)
     {
-        // require_once __DIR__ . '/../../../../aurora/loader.php';
         require_once __DIR__ . '/../../loader.php';
-        // require __DIR__ . '/../../../../aurora/aliases.php';
-
-
            
         try {
             Facade::call('foo');
@@ -99,6 +96,5 @@ class FacadeCest
         }
 
     }
-
     
 }

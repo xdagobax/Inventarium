@@ -1,6 +1,6 @@
 <?php
 
-//Este artefacto es muy util para instanciar o referirse a clases de la aplicacion de manera dinamica, las cuales no estan en el ambito del core ya que el core lopueden consumir diversas aplicaciones 
+//Este artefacto es muy util para instanciar o referirse a clases de la aplicacion de manera dinamica, las cuales no estan en el ambito del core ya que el core lo pueden consumir diversas aplicaciones 
 
 
 namespace DgbAuroCore\vendor\Inventarium;
@@ -28,7 +28,7 @@ class Facade
     {
         return self::$eventResponses;
     }
-    //TODO ¿Por que $override = true? deberia ser false por defecto no?
+
     public static function addAlias($alias, $class, $override = false)
     {
 
@@ -73,13 +73,7 @@ class Facade
     public static function trigger($e)
     {
 
-
-
-
         $eventName = $e['event'];
-        // dgbpc(self::$eventObservers[$eventName]);
-        // dgbec($eventName);
-        // dgbpd(self::$eventObservers[$eventName]);
 
         // Verifica si hay observadores registrados para el evento especificado
         if (isset(self::$eventObservers[$eventName])) {
@@ -87,19 +81,15 @@ class Facade
 
 
             usort($eventObservers, 'DgbAuroCore\vendor\Inventarium\compararPorPrioridad');
-            // dgbec($eventName);
-            // dgbpc($eventObservers);
 
             foreach ($eventObservers as $observer) {
-                // foreach ($observerArray as $observer) {
-                // dgbec(get_class($observer));
-                // dgbec('paso');
-                // dgbpc($e);
-                // dgbpc($observer);
+
                 if (isset($e['response'])) {
 
                     unset($e['response']);
                 }
+
+                //TODO ¿Hay test de esto?
                 $response = $observer[0]->$eventName($e); //Se envia el argumento que se implemento en la llamada completo y ya cada receptor ve como lo maneja, el primer elemento es el nombre del evento , pero el segundo elemento a veces tendra un array en args, a veces un valor simple y a veces no habra args y su nombre puede ser cualquiera.
 
                 $e['suscriptor'] = get_class($observer[0]);
@@ -110,13 +100,13 @@ class Facade
                 array_push(self::$eventResponses, $clonedObject);
             }
 
-            // dgbpc(self::$eventResponses);
         }
     }
 
     public static function delegateEvent($obj, $event, $prioriti = 10)
     {
-        // TODO será bueba idea asignar una prioridad y un numero de argumentos tal como hace wordpress? Y tambien dividir en acciones y filtros?
+
+        // TODO será buena idea asignar una prioridad y un numero de argumentos tal como hace wordpress? Y tambien dividir en acciones y filtros?
         // Utiliza el array asociativo para almacenar los observadores para cada evento
         if (!isset(self::$eventObservers[$event])) {
             self::$eventObservers[$event] = [];
@@ -136,10 +126,12 @@ class Facade
     //XXX Faltan test que ilustren esta funcion con sus argumentos en UpdateControllerCest hay una implementacion con argumentos
     public static function applyFilter($hookName, $initialValue = null, ...$args)
     {
-        // dgbdc(isset(self::$hookObservers[$hookName]));
+
         if (!isset(self::$hookObservers[$hookName])) {
             return $initialValue;
         }
+
+        //TODO que tal definir algunos eventos por aqui y por alla para que los test puedan suscribirse y recuperar valores que no da el return?  valores puntuales por ejemplo de un momento de la ejecucion de la funcioon en especifico 
 
         $filteredValue = $initialValue;
 
@@ -157,6 +149,8 @@ class Facade
         return $filteredValue;
     }
 
+
+    //Simplemente es un wrap ? para que?
     public static function addAction($hookName, $fn = null, $prioriti = 10)
     {
         self::addFilter($hookName, $fn, $prioriti);

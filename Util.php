@@ -71,11 +71,9 @@ class Util
         // Verificar si hay errores
         if ($response === false) {
             $error = curl_error($curl);
+            //TODO mejro un return con array descriptivo que un echo?
             echo "Error en la solicitud: " . $error;
-        } else {
-            // La respuesta está en la variable $response
-            // echo $response;
-        }
+        } 
 
         // Cerrar la conexión cURL
         curl_close($curl);

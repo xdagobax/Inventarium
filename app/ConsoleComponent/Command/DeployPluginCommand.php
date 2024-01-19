@@ -20,13 +20,14 @@ class DeployPluginCommand extends Command
             ->addArgument('folder', InputArgument::REQUIRED, 'Folder del plugin en desarrollo', null)
             ->addArgument('version', InputArgument::REQUIRED, 'Version del plugin en desarrollo', null)
             ->addArgument('deleteZip', InputArgument::OPTIONAL, 'Eliminar el zip al finalizar', false);
+        // TODO deleteZip aun no se implementa
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $folderName = $input->getArgument('folder');
         $version = $input->getArgument('version');
-        $deleteZipOption = $input->getArgument('deleteZip');
+        // $deleteZipOption = $input->getArgument('deleteZip');
         $root = 'C:/laragon/www';
         $folder = 'C:/laragon/www/apps/' . $folderName;
         $destiny = "C:/laragon/www/dist";
@@ -35,12 +36,12 @@ class DeployPluginCommand extends Command
 
         $this->deletePreviousContent($path);
 
-        //TODO ¿que pasa si no hay dependencias o configuraciones? El nombre $config expresa lo que es?
+        //TODO ¿que pasa si no hay dependencias o configuraciones? El nombre $config expresa lo que es odeberia ser algo relacionado a las dependencias?
         $config = $this->checkConfigFile($folder);
 
         $zip = $this->createZip($path);
 
-        $zip = $this->addAppFilesToZip($folder, $folderName, $zip,$version);
+        $zip = $this->addAppFilesToZip($folder, $folderName, $zip, $version);
 
         $zip = $this->addDependencyFilesToZip($root, $config, $folderName, $zip);
 
@@ -57,10 +58,9 @@ class DeployPluginCommand extends Command
     }
 
 
-    private function addAppFilesToZip($folder, $folderName, $zip,$version)
+    private function addAppFilesToZip($folder, $folderName, $zip, $version)
     {
 
-        // Agregar archivos del folder del parámetro
         if (is_dir($folder) === true) {
             $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($folder), \RecursiveIteratorIterator::SELF_FIRST);
 
@@ -76,7 +76,8 @@ class DeployPluginCommand extends Command
                 if (strpos($file, '.git') !== false && strpos($file, '.gitkeep') === false) {
                     continue;
                 }
-                // Evitar agregar la carpeta .git y sus contenidos
+
+                //TODO deberían ir todos en un mismo if
                 if (
                     strpos($file, 'tests') !== false
                     || strpos($file, '40') !== false
@@ -101,7 +102,7 @@ class DeployPluginCommand extends Command
             }
         }
 
-        $versionFile = $this->createVersioFile($folder,$version);
+        $versionFile = $this->createVersioFile($folder, $version);
         $zip->addFile($versionFile, "$folderName/app/version.txt");
 
 
@@ -120,18 +121,7 @@ class DeployPluginCommand extends Command
             file_put_contents($versionFile, $version);
             sleep(1);  // Puedes ajustar la pausa según tus necesidades
             $attempts++;
-        } while (!file_exists($versionFile) && $attempts < $maxAttempts );
-
-        // while ($attempts < $maxAttempts) {
-        //     if (!file_exists($versionFile)) {
-        //         file_put_contents($versionFile, $version);
-        //         break;  // Salir del bucle una vez que se haya creado el versionFile
-        //     } else {
-        //         // El versionFile ya existe, esperar antes de volver a intentar
-        //         $attempts++;
-        //         sleep(2);  // Puedes ajustar la pausa según tus necesidades
-        //     }
-        // }
+        } while (!file_exists($versionFile) && $attempts < $maxAttempts);
 
         if ($attempts === $maxAttempts) {
             echo "No se pudo crear el versionFile después de $maxAttempts intentos.";
@@ -169,6 +159,7 @@ class DeployPluginCommand extends Command
                 foreach ($files as $file) {
                     $file = str_replace('\\', '/', $file);
 
+                    // TODO , debería ser un solo if para todas las excepciones
                     // Evitar agregar el archivo ZIP a sí mismo
                     if (strpos($file, "$folderName.zip") !== false) {
                         continue;
@@ -178,7 +169,7 @@ class DeployPluginCommand extends Command
                     if (strpos($file, '.git') !== false && strpos($file, '.gitkeep') === false) {
                         continue;
                     }
-                    // Evitar agregar la carpeta .git y sus contenidos
+
                     if (
                         strpos($file, 'tests') !== false
                         || strpos($file, '40') !== false
@@ -299,7 +290,6 @@ class DeployPluginCommand extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
 
-
         $plugin = $input->getArgument('folder');
 
         if (is_dir("C:/laragon/www/apps/$plugin") === false) {
@@ -313,15 +303,5 @@ class DeployPluginCommand extends Command
 
         echo "Iniciando \n\r";
     }
-
-    // private function validateDate($date){
-
-    //     $d = \DateTime::createFromFormat('Y-m-d',$date);
-    //     return $d && $d->format('Y-m-d') == $date;
-
-    // }
-
-
-
 
 }

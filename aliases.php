@@ -1,9 +1,10 @@
 <?php
-
+//TODO y el namespace?
 use DgbAuroCore\vendor\Inventarium\Facade;
 
 $clase = 'DgbAuroCore\vendor\Inventarium\Facade';
 
+//TODO esto debería estandarizarse pero entonces heredar todos los sliases de una clase del core
 // Comprobar si la clase está disponible
 if (!class_exists($clase)) {
 
@@ -31,6 +32,7 @@ Facade::addAlias('Sentinela', 'DgbAuroCore\vendor\Inventarium\Sentinela');
 Facade::addAlias('Util', 'DgbAuroCore\vendor\Inventarium\Util');
 Facade::addAlias('Render', 'DgbAuroCore\vendor\Inventarium\Render');
 
+//TODO con una clase se podria gestionar que los aliases de test se definan en otra parte y que se carguen solo en test
 //TEST
 Facade::addAlias('WithConstructParams', 'DgbAuroCore\vendor\Inventarium\tests\mockups\WithConstructParams');
 Facade::addAlias('MkModelSun', 'DgbAuroCore\vendor\Inventarium\tests\mockups\MkModelSun');

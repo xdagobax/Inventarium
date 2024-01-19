@@ -9,6 +9,7 @@ class conexion
     public function __construct()
     {
 
+        //TODO ¿Hay pruebas para esto?
         $host = 'localhost';
         $user = '-dgbDeveloper33#';
         $password = '-dgbDeveloper33#pass';

@@ -8,7 +8,6 @@ class Factory
 
     protected $alias = [];
 
-
     public function __construct($alias)
     {
         $this->alias = $alias;
@@ -91,10 +90,6 @@ class Factory
 
                     //Son necesarios los parametros y no se enviaron al instanciar la clase
                     if (is_null($value)) {
-                        // dgbdd($parameter->isDefaultValueAvailable());
-                        // dgbdd($parameter);
-                        // dgbdd($parameter->getDefaultValue());
-                        // dgbdd($parameters);
                         $errorMessage = "Missing parameter at index $i on class $name";
                         throw new \Exception($errorMessage);
                     }
@@ -122,7 +117,7 @@ class Factory
 
             $msg = 'Error construyendo "' . $name . '": ' . $e->getMessage() . ' linea: ' . $e->getLine();
 
-            //TODO muy largo y util, meter en util.php o algun lado refactorizar
+            //TODO muy largo y util, meter en util.php o algun lado refactorizar, me refiero a la pila de llamadas
             $filteredTrace = '';
             foreach ($e->getTrace() as $trace) {
                 if (isset($trace['class']) && strpos($trace['class'], 'Codeception\\') === 0) {
@@ -142,6 +137,7 @@ class Factory
         }
     }
 
+    //TODO por que factory tierne un addAlias y ademas publico ? Explicar
     public function addAlias(string $alias, string $realName)
     {
         $this->alias[$alias] =  $realName;

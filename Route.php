@@ -15,7 +15,7 @@ class Route {
 	protected $parameters;
 
 	//TODO $closure puede ser un array o una funcion anonima lo que me parece confuso
-	//Quizas siempre debería ser una funcion anonima que ya este por ahi implementada para solo usarla, pero eso hara más compleja la llamada
+	//TODO Quizas siempre debería ser una funcion anonima que ya este por ahi implementada para solo usarla, pero eso hara más compleja la llamada
 	public function __construct($uri, $closure,$classParams)
 	{
 		$this->uri = $uri;

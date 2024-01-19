@@ -14,6 +14,7 @@ class Controller
     {
     }
 
+    //TODO no entiendo facilemente esta funcion
     public function apiFn($type, $fn, $requireData = true)
     {
         $data = null;
@@ -22,7 +23,6 @@ class Controller
 
             $data = file_get_contents("php://input");
             $data = $this->dgb_decript($data);
-            // dgbdd($data);
             $data = Facade::call('Util')->dgbJsonDecode($data, true);
         }
 
@@ -54,6 +54,7 @@ class Controller
 
     protected function render($fileAlias, $data = array(), $showEmptys = false)
     {
+        //TODO cual es el estandar para nombrar las funciones ? Empiezan con mayuscula o minuscula ? definir estandar e implementarlo
         return Render::RenderData($fileAlias, $data, $showEmptys);
     }
 

@@ -1,5 +1,5 @@
 <?php
-
+// TODO y el namespace?
 use DgbAuroCore\vendor\Inventarium\Factory;
 use TestCore\UnitTester;
 
@@ -59,6 +59,7 @@ class FactoryCest
         $factory = new Factory(['Cnx' => 'DgbAuroCore\vendor\Inventarium\Cnx']);
 
         // Acceder a la función privada utilizando reflexión
+        //TODO reemplazar por metodo propioo ya encapsulado
         $reflection = new \ReflectionClass($factory);
         $method = $reflection->getMethod('getRealName');
         $method->setAccessible(true);
@@ -66,7 +67,7 @@ class FactoryCest
         $name = 'Cnx';
         $result = $method->invoke($factory, $name);
         $expectedResult = 'DgbAuroCore\vendor\Inventarium\Cnx';
-        // Realizar aserciones en el resultado
+
         $I->assertEquals($expectedResult, $result, 'Factory->getRealName obtiene el nombre real buscado por alias');
     }
 

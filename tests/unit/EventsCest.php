@@ -1,5 +1,5 @@
 <?php
-
+// TODO ¿Y el namespace?
 use DgbAuroCore\vendor\Inventarium\Facade;
 use TestCore\UnitTester;
 
@@ -17,12 +17,12 @@ class EventsCest
         Facade::removeAllEvent();
 
 
-        $suscriptor = Facade::call('EventSuscriptor')->suscribe();
+        Facade::call('EventSuscriptor')->suscribe();
 
-        $eventSuscriptorTwo = Facade::call('EventSuscriptorTwo')->suscribe();
+        Facade::call('EventSuscriptorTwo')->suscribe();
        
         //Una sola llamada desata todos los eventos, en este caso multiples en dos objetos distintos
-        $sender = Facade::call('EventSender')->justForTriggerEventFunction(); 
+        Facade::call('EventSender')->justForTriggerEventFunction(); 
 
         $response = Facade::getEventResponses();
         

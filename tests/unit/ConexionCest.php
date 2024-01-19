@@ -1,5 +1,5 @@
 <?php
-
+//TODO y el namespace?
 use DgbAuroCore\vendor\Inventarium\tests\mockups\conexion;
 use TestCore\UnitTester;
 

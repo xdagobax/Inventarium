@@ -43,6 +43,7 @@ class EnvCest
         
 
         $I->assertTrue(!is_null(Facade::call('Env')::env('ROOT')), 'env("ROOT") ¿Es accesible y tiene un valor? ');
+        // TODO para que uso strval?
         $I->comment('env("ROOT") si es accesible y tiene un valor: ' . strval(Facade::call('Env')::env('ROOT')));
     }
 

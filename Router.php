@@ -1,5 +1,5 @@
 <?php
-//TODO debo crear una clase especializad en manejar el debuggin , por ejemp0lo para hacer debuggin selectivo del router o del loader.
+
 namespace DgbAuroCore\vendor\Inventarium;
 
 use DgbAuroCore\vendor\Inventarium\Facade;
@@ -22,23 +22,20 @@ class Router
 		// Dividir la URI en segmentos
 		$segments = explode('/', trim($requestUri, '/'));
 
-		$folder = str_replace('/','',$this->env::env('FOLDER'));
+		$folder = str_replace('/', '', $this->env::env('FOLDER'));
 		// Encontrar el índice de la carpeta 'DgbTools'
 		$index = array_search($folder, $segments);
 
 		// Verificar si se encontró la carpeta 'DgbTools'
 		if ($index !== false) {
-			// Obtener la porción de la URI a partir de la carpeta 'DgbTools'
-			$this->requestUri = '/' . implode('/', array_slice($segments, $index)).'/';
+			// Obtener la porción de la URI a partir de la carpeta dada por env APP_NAME
+			$this->requestUri = '/' . implode('/', array_slice($segments, $index)) . '/';
 			$this->requestUri = rawurldecode(preg_replace('#/+#', '/', $this->requestUri)); //TODO creo que es por si hay dobles slash (//)
-			} else {
-				// echo('No existe la rutal '. $this->requestUri );
-				// Si no se encuentra la carpeta 'DgbTools', usar la URI completa
-				$this->requestUri = rawurldecode(preg_replace('#/+#', '/', $requestUri)); //TODO creo que es por si hay dobles slash (//)
-			// $this->requestUri = $requestUri;
+		} else {
+			// Si no se encuentra la carpeta 'DgbTools', usar la URI completa
+			$this->requestUri = rawurldecode(preg_replace('#/+#', '/', $requestUri)); 
+			//TODO creo que es por si hay dobles slash (//)
 		}
-
-
 	}
 
 	public function add($uri, $closure, $classParams = [], $queryparams = false)
@@ -50,6 +47,8 @@ class Router
 		}
 
 		$uri = $this->env::env('FOLDER') . $uri;
+
+		//TODO debo crear una clase especializad en manejar el debuggin , por ejemp0lo para hacer debuggin selectivo del router o del loader.
 
 		$this->env::env('DEBUG') ? $this->debug($uri) : false;
 
@@ -74,7 +73,6 @@ class Router
 
 				$response = $route->execute();
 
-				// break para no seguir dando vueltas
 				// Ya se encontró la ruta correspondiente
 				break;
 			}

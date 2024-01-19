@@ -10,6 +10,7 @@ class Singleton
 
 	protected function __construct()
 	{
+		//TODO ¿Por que esta el constructor vacio?
 	}
 
 	final public static function create(...$args)
@@ -33,6 +34,7 @@ class Singleton
 	}
 
 
+	//TODO porque esta _clone vacio ?
 	private function __clone()
 	{
 	}

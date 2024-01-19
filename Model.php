@@ -21,6 +21,8 @@ class CustomBeanWrapper extends \RedBeanPHP\OODBBean
 
         return $this->bean->$property;
     }
+
+    //TODO esto que ?
     public function __call($method, $args)
     {
         throw new \BadMethodCallException("El método $method no está implementado en esta clase.");
@@ -235,6 +237,7 @@ class Model
 
 
         if (empty($bean)) {
+            //TODO no debería esto lanzar una excepcion ¿Para que un echo?
             echo function_exists('dgbInTest') ? "No hay registros en la tabla '$tableName'. \n" : false;
 
             return null;
@@ -261,6 +264,7 @@ class Model
         $result = \R::getCell($query);
 
         if ($result === null) {
+            // TODO mejor lanzar excepciones?
             echo "La tabla '$tableName' ha sido eliminada correctamente. \n";
         } else {
             echo "No se pudo eliminar la tabla '$tableName'.";
@@ -282,6 +286,7 @@ class Model
         }
     }
 
+    //TODO no estaria mejor en clase utilidades?
     private function getClassName($env)
     {
 
@@ -308,7 +313,8 @@ class Model
         $user_id = $this->sessionManager->get('user_id');
 
         if (empty($user_id)) {
-            //default id 1 "system" TODO asignarlo desde env, no siempre sera 1 y puede afectar las relaciones entre tablas
+            //default id 1 "system" 
+            // TODO asignarlo desde env, no siempre sera 1 y puede afectar las relaciones entre tablas
             $user_id = 1;
         }
 

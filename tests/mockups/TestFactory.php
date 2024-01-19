@@ -4,7 +4,7 @@ namespace DgbAuroCore\vendor\Inventarium\tests\mockups;
 
 use DgbAuroCore\vendor\Inventarium\Controller;
 use DgbAuroCore\vendor\Inventarium\Model;
-
+// Renombrar esto es un mockup no un test
 //Probar si se inyectan las clases con la factoria
 class TestFactory
 {

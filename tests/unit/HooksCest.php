@@ -1,5 +1,5 @@
 <?php
-
+// TODO y el namespace?
 use DgbAuroCore\vendor\Inventarium\Facade;
 use TestCore\UnitTester;
 
@@ -7,12 +7,15 @@ class HooksCest
 {
     function __construct()
     {
+        //TODO por que requiero el debuuger a parte ? ¿Nohayuna interfaz de dependencias?
         require_once __DIR__ . '/../../../DgbDebugger/debug.php';
 
     }
 
+    //TODO esta funcion debo verla correr para entenderla, refactorizar y comentar
     function testHooks(UnitTester $I)
     {
+        //TODO los requires deberían ir en el constructor, el rendimiento no es un requisito en las pruebas, almenos no a ese nivel
         require_once __DIR__ . '/../../loader.php';
         require_once __DIR__ . '/../../aliases.php';
 
@@ -71,13 +74,12 @@ class HooksCest
         $I->assertStringContainsString('prioridad 2 prioridad 1', $subjectData,  ' DESC');
     }
 
-    /**
-     * @group grupo_problem
-     */
+    //TODO no hay assertions?
     function testActionAsEvent(UnitTester $I)
     {
 
 
+        //TODO los requires no van aqui
         require_once __DIR__ . '/../../loader.php';
         require_once __DIR__ . '/../../aliases.php';
 
@@ -87,9 +89,8 @@ class HooksCest
             return "$dato  funcion colgada al hook  desde \n";
         };
 
-        $addaction = Facade::addAction('triggerActionAsEvent', $fn, 3);
+        Facade::addAction('triggerActionAsEvent', $fn, 3);
 
-        // var_dump($addaction);
-        $hookExecutedResult = Facade::call('HookSubject')->triggerActionAsEvent('Dato enviado a ');
+        Facade::call('HookSubject')->triggerActionAsEvent('Dato enviado a ');
     }
 }
