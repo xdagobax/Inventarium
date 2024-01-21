@@ -29,9 +29,11 @@ class DeployPluginCommand extends Command
         $version = $input->getArgument('version');
         // $deleteZipOption = $input->getArgument('deleteZip');
         $root = 'C:/laragon/www';
-        $folder = 'C:/laragon/www/apps/' . $folderName;
         $destiny = "C:/laragon/www/dist";
         $path = "$destiny/$folderName";
+
+
+        $folder = $this->selecFolder($folderName);
 
 
         $this->deletePreviousContent($path);
@@ -57,6 +59,19 @@ class DeployPluginCommand extends Command
         return 0;
     }
 
+    private function selecFolder($folderName)
+    {
+
+        if (is_dir('C:/laragon/www/apps/' . $folderName)) {
+
+            $folder = 'C:/laragon/www/apps/' . $folderName;
+        } elseif (is_dir('C:/laragon/www/vendor/' . $folderName)) {
+
+            $folder = 'C:/laragon/www/vendor/' . $folderName;
+        }
+
+        return $folder;
+    }
 
     private function addAppFilesToZip($folder, $folderName, $zip, $version)
     {
@@ -86,6 +101,7 @@ class DeployPluginCommand extends Command
                     || strpos($file, '.zip') !== false
                     || strpos($file, 'dgbdev.dummy') !== false
                     || strpos($file, "$folderName/dist") !== false
+                    || strpos($file, "$folderName/test") !== false
 
                 ) {
                     continue;
@@ -134,7 +150,7 @@ class DeployPluginCommand extends Command
         // Leer la configuración desde el archivo dist.config
         $configFile = "$folder/dist/dist.config";
         if (!file_exists($configFile)) {
-            die('El archivo dist.confog no existe');
+            die('El archivo dist.config no existe');
         }
         $config = parse_ini_file($configFile, true);
 
@@ -292,7 +308,7 @@ class DeployPluginCommand extends Command
 
         $plugin = $input->getArgument('folder');
 
-        if (is_dir("C:/laragon/www/apps/$plugin") === false) {
+        if (is_dir("C:/laragon/www/apps/$plugin") === false  && is_dir("C:/laragon/www/vendor/$plugin") === false) {
             $output->writeln("No existe el folder $plugin ¿Lo escribiste bien?");
             die;
         }
@@ -303,5 +319,4 @@ class DeployPluginCommand extends Command
 
         echo "Iniciando \n\r";
     }
-
 }
