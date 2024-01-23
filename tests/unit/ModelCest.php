@@ -26,7 +26,7 @@ class ModelCest
         require __DIR__ . '/../../../../aurora/aliases.php';
 
 
-        //TODO y el assert? o basta con que no lance error? Un assert typeif podría ser la solucion
+        //TODO y el assert? o basta con que no lance error? Un assert typeof podría ser la solucion
         $modelsun = new MkModelSun();
     }
 

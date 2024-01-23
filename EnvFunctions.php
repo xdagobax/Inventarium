@@ -11,6 +11,9 @@ class EnvFunctions
 
     public static function getVars()
     {
+
+        self::$env_vars['URL'] = self::getUrlBase();
+        
         //TODO ¿Debería el folder definirse en un archivo de cliente como el de configuracion? Lo puse aqui originalmenteporque me molesta tener algoritmos en el archivo Env el cual debería ser exclusivo para declaraciones de las variables de entorno
         self::$env_vars['FOLDER'] = str_replace($_SERVER['DOCUMENT_ROOT'], '', str_replace('\\', '/', self::$env_vars['ROOT']));
 
@@ -69,4 +72,34 @@ class EnvFunctions
         //Por que no uso el array original de env_vars?
         self::$user_setted_env_vars[$key] = $value;
     }
+
+
+    private static function getUrlBase() {
+        
+
+        //En ejecuciones por consola no hay $_SERVER['REQUEST_URI']
+        if(
+            !isset($_SERVER['REQUEST_URI']) 
+            || !isset($_SERVER['SERVER_NAME'])
+            || !isset($_SERVER['HTTPS'])
+            || !isset($_SERVER['APP_NAME'])
+            ){
+            return false;
+        }
+
+        $protocolo = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+    
+        $segmentos = explode('/', $_SERVER['REQUEST_URI']);
+    
+        $indiceDgbTools = array_search(self::$env_vars['APP_NAME'], $segmentos);
+    
+        $segmentosModificados = array_slice($segmentos, 0, $indiceDgbTools + 1);
+    
+        $nuevaURL = $protocolo . $_SERVER['SERVER_NAME'] . implode('/', $segmentosModificados);
+    
+        return $nuevaURL;
+    }
+    
+ 
+    
 }
